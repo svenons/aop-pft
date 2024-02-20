@@ -1,6 +1,6 @@
 namespace PersonalFinanceTracker {
     public interface IFinanceStorage {
-        public void Save();
-        public void Load();
+        public bool Save(List<Transaction> storage);
+        public List<Transaction> Load();
     }
 }
