@@ -1,11 +1,14 @@
+using System.Xml.Linq;
+
 namespace PersonalFinanceTracker {
     public class FinanceTracker: IFinance{
         public List<Transaction>? Transactions { get; set; }
+        public JsonFinanceStorage storage = new JsonFinanceStorage();
         public void AddTransaction(Transaction transaction)
         {
             if (Transactions == null)
             {
-                Transactions = new List<Transaction>();
+                Transactions = storage.Load();
             }
             Transactions.Add(transaction);
         }
@@ -29,9 +32,17 @@ namespace PersonalFinanceTracker {
             }
             return Transactions;
         }
+        public bool Save()
+        {
+            if (storage != null)
+            {
+                return storage.Save(Transactions!);
+            }
+            return false;
+        }
         public FinanceTracker()
         {
-            Transactions = new JsonFinanceStorage().Load(); // Load transactions from file before starting
+            Transactions = storage.Load(); // Load transactions from file before starting
         }
     }
 
