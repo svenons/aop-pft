@@ -1,7 +1,11 @@
-﻿namespace PersonalFinanceTracker {
+﻿using System.Runtime.CompilerServices;
+
+namespace PersonalFinanceTracker {
     class Program {
+        private UserInterface UserInterface = new();
         static void Main(string[] args) {
-            Console.WriteLine("Hello World!");
+            UserInterface.InitialiseUI();
+            UserInterface.MainMenu();
         }
     }
 }
