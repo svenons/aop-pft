@@ -29,6 +29,10 @@ namespace PersonalFinanceTracker {
             }
             return Transactions;
         }
+        public FinanceTracker()
+        {
+            Transactions = new JsonFinanceStorage().Load(); // Load transactions from file before starting
+        }
     }
 
     public class FinanceSummary: IFinanceSummary
