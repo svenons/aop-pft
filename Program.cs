@@ -4,7 +4,10 @@ namespace PersonalFinanceTracker {
     class Program {
         private UserInterface UserInterface = new();
         static void Main(string[] args) {
-            UserInterface.InitialiseUI();
+            while(true) {
+                UserInterface.InitialiseUI();
+            }
+            
         }
     }
 }
