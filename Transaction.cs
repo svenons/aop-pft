@@ -14,7 +14,7 @@ namespace PersonalFinanceTracker {
         public Category TransactionCategory { get; set; }
         
         // Parameterless constructor
-        public Transaction() {
+        public Transaction(DateTime now) {
             Description = "No description"; //added this to avoid null reference exception
         }
         public Transaction(DateTime date, string description, decimal amount, Category category) {

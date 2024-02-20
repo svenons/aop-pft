@@ -114,7 +114,7 @@ namespace PersonalFinanceTracker {
 
             // Setting Parameters
             int mainMenuWidth = 50;
-            int mainMenuHeight = 4;
+            int mainMenuHeight = 5;
             int leftIndent = (Console.WindowWidth-mainMenuWidth)/2 -1;
             int topIndent = (Console.WindowHeight-mainMenuHeight)/2 -1;
 
@@ -143,18 +143,19 @@ namespace PersonalFinanceTracker {
             // --- // End Writing Window Outlines
 
             // Items to display
-            string[] menuItems = {"Description", "Amount", "Category"};
+            string[] menuItems = {"Description", "Amount", "Category", "Date"};
             string description = "";
             decimal? amount = null;
+            DateTime date = new DateTime();
             Transaction.Category? category = null;
 
             // While True Loop until ALL inputs are handled.
             while(true) {
 
                 // Outer For loop: For handling each input
-                for(int _ = 0; _ <= 2; ++_) {
+                for(int _ = 0; _ <= 3; ++_) {
                     // Inner For Loop: Printing menuItems and user inputs to screen
-                    for(int __ = 0; __ <= 2; ++__) {
+                    for(int __ = 0; __ <= 3; ++__) {
                         Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + __);
                         Console.Write($"{menuItems[__]}: ");
 
@@ -169,6 +170,10 @@ namespace PersonalFinanceTracker {
 
                             case 2:
                                 if(category != null) Console.Write(category.ToString());
+                                break;
+                            
+                            case 3:
+                                if(date != DateTime.MinValue) Console.Write($"{date.Day}.{date.Month}.{date.Year}, {date.Hour}:{date.Minute}");
                                 break;
 
                             default:
@@ -212,7 +217,7 @@ namespace PersonalFinanceTracker {
                                 input= GetInputAtBottom();
                                 
                                 // Trying to parse to number
-                                if(!decimal.TryParse(input, out int testAmount)) {
+                                if(!decimal.TryParse(input, out decimal testAmount)) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
                                     Console.Write("Please enter a valid decimal number.");
                                     amount = null;
@@ -224,6 +229,8 @@ namespace PersonalFinanceTracker {
                         // Category
                         case 2:
                         // Clearing Bottom of screen, then getting input
+                            Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                            Console.Write(clearString);
                             Console.SetCursorPosition(0, Console.WindowHeight - 1);
                             Console.Write(clearString);
                             Console.SetCursorPosition(0, Console.WindowHeight - 1);
@@ -268,6 +275,33 @@ namespace PersonalFinanceTracker {
                                 Console.Write(clearString);
                             }
                             break;
+
+                        case 3:
+                            while(date == DateTime.MinValue) {
+                                // Clearing bottom of screen, then getting input
+                                Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                                Console.Write(clearString);
+                                Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                                Console.CursorVisible = true;
+                                Console.Write("Enter Date and Time: ");
+                                string input = "";
+                                input = GetInputAtBottom();
+
+                                bool conversionWorked = DateTime.TryParse(input, out DateTime testDate);
+                                if(input.Length != 0 && !conversionWorked) {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Enter date and time as YYYY-MM-DD HH:MM (24 Hour), or leave blank for now.");
+                                    date = DateTime.MinValue;
+                                } else if(input.Length == 0) date = DateTime.Now;
+                                else date = testDate;
+
+                            }
+                            // Clearing Up
+                            Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                            Console.Write(clearString);
+                            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                            Console.Write(clearString);
+                            break;
                         
                         default:
                             break;
@@ -275,21 +309,25 @@ namespace PersonalFinanceTracker {
                 }
 
                 // Writing Everything again - required to show category at the end before confirming.
-                for(int __ = 0; __ <= 2; ++__) {
+                for(int __ = 0; __ <= 3; ++__) {
                     Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + __);
                     Console.Write($"{menuItems[__]}: ");
 
                     switch(__) {
                         case 0:
-                            if(description != null) Console.Write(description);
+                            Console.Write(description);
                             break;
 
                         case 1:
-                            if(amount != null) Console.Write($"{amount} Kr");
+                            Console.Write($"{amount} Kr");
                             break;
 
                         case 2:
-                            if(category != null) Console.Write(category.ToString());
+                            Console.Write(category.ToString());
+                            break;
+
+                        case 3:
+                            Console.Write($"{date.Day}.{date.Month}.{date.Year}, {date.Hour}:{date.Minute}");
                             break;
 
                         default:
@@ -335,9 +373,14 @@ namespace PersonalFinanceTracker {
                 // If Save
                 if(choice == 0) {
                     IFinance finance = new FinanceTracker();
-                    decimal passedAmount = (decimal)amount;
-                    Transaction.Category passedCategory = (Transaction.Category)category;
-                    Transaction save = new Transaction(DateTime.Now, description, passedAmount, passedCategory);
+                    string passedDescription = "";
+                    if(description != null) passedDescription = description;
+                    decimal passedAmount = 0;
+                    if(amount != null) passedAmount = (decimal)amount;
+                    Transaction.Category passedCategory = Transaction.Category.Income;
+                    if(category != null) passedCategory = (Transaction.Category)category;
+                    
+                    Transaction save = new Transaction(date, passedDescription, passedAmount, passedCategory);
                     finance.AddTransaction(save);
                     finance.Save();
                 }
@@ -368,7 +411,7 @@ namespace PersonalFinanceTracker {
                         Console.Write(inputChar.KeyChar);
                         input += inputChar.KeyChar;
                     }
-                }
+                } else if(inputChar.Key == ConsoleKey.Backspace) {}
                 else break;
             }
             return input;
