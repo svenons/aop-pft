@@ -46,7 +46,7 @@ namespace PersonalFinanceTracker {
             while(true) {
                 for(int _ = 0; _ <= 4; ++_) {
                     Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + _);
-                    Console.Write($"{(_ == currentSelection ? "> " : "")}{menuItems[_]}");
+                    Console.Write($"{(_ == currentSelection ? "> " : "")}{menuItems[_]}  ");
                 }
 
                 ConsoleKey userInput = Console.ReadKey().Key;
