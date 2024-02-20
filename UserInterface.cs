@@ -237,6 +237,30 @@ namespace PersonalFinanceTracker {
                             break;
                     }
                 }
+
+                for(int __ = 0; __ <= 2; ++__) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + __);
+                    Console.Write($"{menuItems[__]}: ");
+
+                    switch(__) {
+                        case 0:
+                            if(description != null) Console.Write(description);
+                            break;
+
+                        case 1:
+                            if(amount != null) Console.Write($"{amount} Kr");
+                            break;
+
+                        case 2:
+                            if(category != null) Console.Write(category.ToString());
+                            break;
+
+                        default:
+                            break;
+                    }
+                    
+                }
+
                 int currentSelection = 0;
                 Console.CursorVisible = false;
                 string[] choices = {"Save", "Discard"};
