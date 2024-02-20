@@ -1,16 +1,107 @@
 [
   {
-    "ID": "7271dc15-6469-4787-a0aa-3b25709b51f1",
-    "Date": "2024-02-20T19:37:14.1557291+01:00",
-    "Description": "jdawkdawjdwa",
-    "Amount": 122220000,
+    "ID": "49b0c447-f20d-4538-840b-7091da99afda",
+    "Date": "2024-02-20T19:39:41.9313076+01:00",
+    "Description": "312312312",
+    "Amount": 213213123,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "41a39ed9-0ef9-4693-873c-f7988624104b",
+    "Date": "2024-02-20T19:44:33.3322472+01:00",
+    "Description": "transaction1",
+    "Amount": 1200,
     "TransactionCategory": 0
   },
   {
-    "ID": "f411c329-7698-47f4-9351-1b519e74c8e8",
-    "Date": "2024-02-20T19:37:19.3634566+01:00",
-    "Description": "23123123",
-    "Amount": 213123123,
+    "ID": "0665cb02-6b2c-4cb2-a05a-a612ac31d561",
+    "Date": "2024-02-20T19:44:33.3323507+01:00",
+    "Description": "transaction2",
+    "Amount": 200,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "eaf6bc42-2321-4016-93dd-f61e67f1f26f",
+    "Date": "2024-02-20T19:44:33.3323524+01:00",
+    "Description": "transaction3",
+    "Amount": 300,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "9ebbdde5-36c4-43b8-aaec-07c57aaa0ce4",
+    "Date": "2024-02-20T19:44:33.3323527+01:00",
+    "Description": "transaction4",
+    "Amount": 400,
+    "TransactionCategory": 3
+  },
+  {
+    "ID": "ac6a7cad-e680-4042-9ab8-4b6e499e268b",
+    "Date": "2024-02-20T19:45:04.4335787+01:00",
+    "Description": "transaction1",
+    "Amount": 1200,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "1f65a3bf-a32e-463a-af64-d368a260f059",
+    "Date": "2024-02-20T19:45:04.4336853+01:00",
+    "Description": "transaction2",
+    "Amount": 200,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "0f756367-8a04-41a6-baa0-728e839a46c6",
+    "Date": "2024-02-20T19:45:04.4336869+01:00",
+    "Description": "transaction3",
+    "Amount": 300,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "88a2f8e5-5a3e-4826-92b3-87fa2de81d13",
+    "Date": "2024-02-20T19:45:04.433688+01:00",
+    "Description": "transaction4",
+    "Amount": 400,
+    "TransactionCategory": 3
+  },
+  {
+    "ID": "9fdcc452-f931-4be8-b222-24ffef21acd7",
+    "Date": "2024-02-20T19:51:39.4178912+01:00",
+    "Description": "transaction1",
+    "Amount": 1200,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "fba6fb02-e6a3-4ef8-b7fd-374d8fd1f728",
+    "Date": "2024-02-20T19:51:39.417973+01:00",
+    "Description": "transaction2",
+    "Amount": 200,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "11365024-06a9-4e84-9943-06f9df908709",
+    "Date": "2024-02-20T19:51:39.4179746+01:00",
+    "Description": "transaction3",
+    "Amount": 300,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "689e6c7c-a0d9-4c89-b459-10d998c7125f",
+    "Date": "2024-02-20T19:51:39.4179748+01:00",
+    "Description": "transaction4",
+    "Amount": 400,
+    "TransactionCategory": 3
+  },
+  {
+    "ID": "75272611-2f90-4029-8c78-a5c62ff2eea8",
+    "Date": "2024-02-20T19:54:05.7313954+01:00",
+    "Description": "haha test 31",
+    "Amount": 31000,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "4678262d-174f-4365-ba16-8b11be2ef714",
+    "Date": "2024-02-20T19:54:25.5349863+01:00",
+    "Description": "1128412831283",
+    "Amount": 12312312341234123123,
     "TransactionCategory": 0
   }
 ]

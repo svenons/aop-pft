@@ -1,8 +1,4 @@
-using System;
-using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Runtime.InteropServices;
-using System.Security.Principal;
 
 namespace PersonalFinanceTracker {
     public class UserInterface {
@@ -381,6 +377,7 @@ namespace PersonalFinanceTracker {
                     if(category != null) passedCategory = (Transaction.Category)category;
                     
                     Transaction save = new Transaction(date, passedDescription, passedAmount, passedCategory);
+                    finance.Load();
                     finance.AddTransaction(save);
                     finance.Save();
                 }

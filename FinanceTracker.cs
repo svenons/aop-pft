@@ -1,5 +1,3 @@
-using System.Xml.Linq;
-
 namespace PersonalFinanceTracker {
     public class FinanceTracker: IFinance{
         public List<Transaction>? Transactions { get; set; }
@@ -43,6 +41,10 @@ namespace PersonalFinanceTracker {
         public FinanceTracker()
         {
             Transactions = storage.Load(); // Load transactions from file before starting
+        }
+        public void Load()
+        {
+            Transactions = storage.Load();
         }
     }
 
