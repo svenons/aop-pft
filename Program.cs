@@ -5,7 +5,6 @@ namespace PersonalFinanceTracker {
         private UserInterface UserInterface = new();
         static void Main(string[] args) {
             UserInterface.InitialiseUI();
-            UserInterface.MainMenu();
         }
     }
 }

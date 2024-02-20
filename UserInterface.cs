@@ -12,6 +12,14 @@ namespace PersonalFinanceTracker {
                 Console.WriteLine("Your Console Window is too small to run this application. Please resize your window to at least 80x20.");
                 Environment.Exit(1);
             }
+            
+            int userInput = MainMenu();
+            if(userInput == 4) {
+                Console.SetCursorPosition(0, 0);
+                Console.CursorVisible = true;
+                Console.Clear();
+                Environment.Exit(0);
+            }
             //Console.WriteLine($"W: {windowWidth}\nH: {windowHeight}");
         }
         public static int MainMenu() {
@@ -61,12 +69,13 @@ namespace PersonalFinanceTracker {
                         else --currentSelection;
                         break;
 
+                    case ConsoleKey.Enter:
+                        return currentSelection;
+
                     default:
                         break;
                 }
             }
-
-            return 0;
         }
 
         public static void CreateTransactionMenu() {
