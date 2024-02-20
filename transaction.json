@@ -1,9 +1,9 @@
 [
   {
-    "ID": "0a708fdb-4767-4bb3-9fb2-1078bdf7b62d",
-    "Date": "2024-02-20T19:16:13.2845334+01:00",
-    "Description": "Income",
-    "Amount": 24000,
+    "ID": "d243dbbf-a2d0-4c8d-bc51-73171b68d0fd",
+    "Date": "2024-02-20T19:25:59.6963409+01:00",
+    "Description": "Test Transaction 1",
+    "Amount": 50000,
     "TransactionCategory": 0
   }
 ]
