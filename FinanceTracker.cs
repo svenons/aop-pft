@@ -29,21 +29,6 @@ namespace PersonalFinanceTracker {
             }
             return Transactions;
         }
-        public bool setFinanceCategory(Transaction transaction, string newCategory)
-        {
-            if (Transactions != null)
-            {
-                foreach (Transaction t in Transactions)
-                {
-                    if (t.ID == transaction.ID)
-                    {
-                        t.TransactionCategory = (Transaction.Category)Enum.Parse(typeof(Transaction.Category), newCategory);
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
     }
 
     public class FinanceSummary: IFinanceSummary
