@@ -14,7 +14,6 @@ namespace PersonalFinanceTracker {
                     var json = File.ReadAllText(filePath);
                     var transaction = JsonSerializer.Deserialize<List<Transaction>>(json);
                     return transaction ?? new List<Transaction>();
-                   
                 }
                 else{
                     return new List<Transaction>();

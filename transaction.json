@@ -1,0 +1,30 @@
+[
+  {
+    "ID": "41ef5527-b677-4b5c-a2a9-a6ce6fc2ec8b",
+    "Date": "2024-02-20T14:01:08.2667057+01:00",
+    "Description": "transaction1",
+    "Amount": 1200,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "6321bb94-03f1-48a4-a057-6c14b8548116",
+    "Date": "2024-02-20T14:01:08.2725571+01:00",
+    "Description": "transaction2",
+    "Amount": 200,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "db2cf786-1914-44d7-8e8f-72f06169663b",
+    "Date": "2024-02-20T14:01:08.2725611+01:00",
+    "Description": "transaction3",
+    "Amount": 300,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "bc3c04e7-bdc8-4d86-8d92-8380080ed36d",
+    "Date": "2024-02-20T14:01:08.2725616+01:00",
+    "Description": "transaction4",
+    "Amount": 400,
+    "TransactionCategory": 3
+  }
+]

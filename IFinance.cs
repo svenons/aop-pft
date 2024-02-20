@@ -1,8 +1,11 @@
 namespace PersonalFinanceTracker {
     public interface IFinance {
         public void AddTransaction(Transaction transaction);
-        public void RemoveTransaction(Transaction transaction);
-        public void GetTransactions();
-        public void setFinanceCategory(Transaction transaction, string category);
+        public bool RemoveTransaction(Transaction transaction);
+        public List<Transaction> GetTransactions();
+        public bool Save();
+    }
+    public interface IFinanceSummary {
+        public decimal GetSummary(List<Transaction> transactions, Transaction.Category category);
     }
 }
