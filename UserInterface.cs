@@ -7,14 +7,19 @@ using System.Security.Principal;
 namespace PersonalFinanceTracker {
     public class UserInterface {
 
+        // Function that initialises and subsequently starts the UI.
         public static void InitialiseUI() {
+            // Setting initial console parameters
             Console.Clear();
             Console.CursorVisible = false;
             Console.SetWindowSize(80, 20);
+
+            // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20);
             int windowWidth = Console.WindowWidth;
             int windowHeight = Console.WindowHeight;
 
+            // Calling MainMenu Method to get input to the call next submenu.
             int userInput = MainMenu();
             switch(userInput) {
                 case 0:
@@ -30,6 +35,7 @@ namespace PersonalFinanceTracker {
                 case 3:
                     break;
 
+                // Case for exiting the application. Resetting console to workable state, and then quitting.
                 case 4:
                     Console.SetCursorPosition(0, 0);
                     Console.CursorVisible = true;
@@ -37,14 +43,17 @@ namespace PersonalFinanceTracker {
                     Environment.Exit(0);
                     break;
             }
-            //Console.WriteLine($"W: {windowWidth}\nH: {windowHeight}");
         }
+
+        // Method for the Main Menu
         public static int MainMenu() {
+            // Setting Parameters
             int mainMenuWidth = 30;
             int mainMenuHeight = 6;
             int leftIndent = (Console.WindowWidth-mainMenuWidth)/2 -1;
             int topIndent = (Console.WindowHeight-mainMenuHeight)/2 -1;
             
+            // --- // Start Writing Window Outlines
             Console.SetCursorPosition(leftIndent + 3, topIndent - 1);
             Console.Write("Personal Finance Tracker");
 
@@ -65,15 +74,20 @@ namespace PersonalFinanceTracker {
             Console.Write('\u255A');
             for(int _ = 0; _ <= mainMenuWidth - 2; ++_) Console.Write('\u2550');
             Console.Write('\u255D');
+            // --- // End Writing Window Outlines
 
+            // Write Options to the screen
             int currentSelection = 0;
             string[] menuItems = {"Add Transaction", "Remove Transaction", "List Transactions", "Financial Statement", "Exit"};
+
+            // Loop Until Enter Key is pressed to select option
             while(true) {
                 for(int _ = 0; _ <= 4; ++_) {
                     Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + _);
                     Console.Write($"{(_ == currentSelection ? "> " : "")}{menuItems[_]}  ");
                 }
 
+                // Input Handler and Menu Navigation
                 ConsoleKey userInput = Console.ReadKey().Key;
                 switch(userInput) {
                     case ConsoleKey.DownArrow:
@@ -95,14 +109,17 @@ namespace PersonalFinanceTracker {
             }
         }
 
+        // Method for the Menu used to create a new Transaction
         public static void CreateTransactionMenu() {
+
+            // Setting Parameters
             int mainMenuWidth = 50;
             int mainMenuHeight = 4;
             int leftIndent = (Console.WindowWidth-mainMenuWidth)/2 -1;
             int topIndent = (Console.WindowHeight-mainMenuHeight)/2 -1;
 
+            // --- // Start Writing Window Outlines
             Console.Clear();
-
             Console.SetCursorPosition(leftIndent + 13, topIndent - 1);
             Console.Write("Personal Finance Tracker");
 
@@ -123,14 +140,20 @@ namespace PersonalFinanceTracker {
             Console.Write('\u255A');
             for(int _ = 0; _ <= mainMenuWidth - 2; ++_) Console.Write('\u2550');
             Console.Write('\u255D');
+            // --- // End Writing Window Outlines
 
+            // Items to display
             string[] menuItems = {"Description", "Amount", "Category"};
             string description = "";
             decimal? amount = null;
             Transaction.Category? category = null;
 
+            // While True Loop until ALL inputs are handled.
             while(true) {
+
+                // Outer For loop: For handling each input
                 for(int _ = 0; _ <= 2; ++_) {
+                    // Inner For Loop: Printing menuItems and user inputs to screen
                     for(int __ = 0; __ <= 2; ++__) {
                         Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + __);
                         Console.Write($"{menuItems[__]}: ");
@@ -154,10 +177,15 @@ namespace PersonalFinanceTracker {
                         
                     }
 
+                    // String used to clear within boundaries of "Window"
                     string clearString = new string(' ', Console.WindowWidth - 2);
+
+                    // Switch for getting user inputs - each input is somewhat different.
                     switch(_) {
+                        // Description
                         case 0:
                             while(description == "") {
+                                // Clearing bottom of screen, then getting input
                                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
                                 Console.Write(clearString);
                                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
@@ -165,13 +193,16 @@ namespace PersonalFinanceTracker {
                                 Console.Write("Enter Description: ");
                                 description = GetInputAtBottom();
                             }
+                            // Clearing Error Message
                             Console.SetCursorPosition(0, Console.WindowHeight - 2);
                             Console.Write(clearString);
                             Console.CursorVisible = false;
                             break;
                         
+                        // Amount
                         case 1:
                             while(amount == null) {
+                                // Clearing bottom of screen, then getting input
                                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
                                 Console.Write(clearString);
                                 Console.SetCursorPosition(0, Console.WindowHeight - 1);
@@ -180,21 +211,25 @@ namespace PersonalFinanceTracker {
                                 string input = "";
                                 input= GetInputAtBottom();
                                 
-                                if(!Int32.TryParse(input, out int testAmount)) {
+                                // Trying to parse to number
+                                if(!decimal.TryParse(input, out int testAmount)) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
-                                    Console.Write("Please enter a valid number.");
+                                    Console.Write("Please enter a valid decimal number.");
                                     amount = null;
                                 } else amount = testAmount;
                             }
                             Console.CursorVisible = false;
                             break;
                         
+                        // Category
                         case 2:
+                        // Clearing Bottom of screen, then getting input
                             Console.SetCursorPosition(0, Console.WindowHeight - 1);
                             Console.Write(clearString);
                             Console.SetCursorPosition(0, Console.WindowHeight - 1);
                             Console.CursorVisible = true;
 
+                            // Input functions identically to Main Menu
                             int count = Enum.GetValues(typeof(Transaction.Category)).Length;
                             int userSelection = 0;
                             Console.CursorVisible = false;
@@ -227,6 +262,7 @@ namespace PersonalFinanceTracker {
                                         break;
                                 }
                             }
+                            // Clearing Up after the category selection
                             for(int __ = 0; __ <= count; ++__) {
                                 Console.SetCursorPosition(0, Console.WindowHeight - count - 1 + __);
                                 Console.Write(clearString);
@@ -238,6 +274,7 @@ namespace PersonalFinanceTracker {
                     }
                 }
 
+                // Writing Everything again - required to show category at the end before confirming.
                 for(int __ = 0; __ <= 2; ++__) {
                     Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + __);
                     Console.Write($"{menuItems[__]}: ");
@@ -261,6 +298,7 @@ namespace PersonalFinanceTracker {
                     
                 }
 
+                // Save & Discard prompt. Functions identically to Main Menu.
                 int currentSelection = 0;
                 Console.CursorVisible = false;
                 string[] choices = {"Save", "Discard"};
@@ -294,6 +332,15 @@ namespace PersonalFinanceTracker {
                             break;
                     }
                 }
+                // If Save
+                if(choice == 0) {
+                    IFinance finance = new FinanceTracker();
+                    decimal passedAmount = (decimal)amount;
+                    Transaction.Category passedCategory = (Transaction.Category)category;
+                    Transaction save = new Transaction(DateTime.Now, description, passedAmount, passedCategory);
+                    finance.AddTransaction(save);
+                    finance.Save();
+                }
                 break;
             }
         }
@@ -301,6 +348,11 @@ namespace PersonalFinanceTracker {
         public static void DeleteTransactionMenu() {
 
         }
+
+        // Own quick Console.ReadLine() implementation:
+        //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.
+        //  Also prevents the line break when pressing Enter in Console.ReadLine() that occurs in the terminal
+        //      and shifts the entire screen up.
         private static string GetInputAtBottom() {
             string input = "";
             while(true) {
