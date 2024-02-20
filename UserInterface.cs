@@ -6,6 +6,8 @@ namespace PersonalFinanceTracker {
         // Function that initialises and subsequently starts the UI.
         public static IFinance finance = new FinanceTracker();
         public static void InitialiseUI() {
+            finance.Load();
+
             // Setting initial console parameters
             Console.Clear();
             Console.CursorVisible = false;

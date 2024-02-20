@@ -38,10 +38,6 @@ namespace PersonalFinanceTracker {
             }
             return false;
         }
-        public FinanceTracker()
-        {
-            Transactions = storage.Load(); // Load transactions from file before starting
-        }
         public void Load()
         {
             Transactions = storage.Load();
