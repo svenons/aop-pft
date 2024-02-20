@@ -28,7 +28,7 @@ namespace PersonalFinanceTracker {
         {
             if (Transactions == null)
             {
-                Transactions = new List<Transaction>();
+                Transactions = storage.Load();
             }
             return Transactions;
         }
