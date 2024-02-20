@@ -1,9 +1,16 @@
 [
   {
-    "ID": "d243dbbf-a2d0-4c8d-bc51-73171b68d0fd",
-    "Date": "2024-02-20T19:25:59.6963409+01:00",
-    "Description": "Test Transaction 1",
-    "Amount": 50000,
+    "ID": "7271dc15-6469-4787-a0aa-3b25709b51f1",
+    "Date": "2024-02-20T19:37:14.1557291+01:00",
+    "Description": "jdawkdawjdwa",
+    "Amount": 122220000,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "f411c329-7698-47f4-9351-1b519e74c8e8",
+    "Date": "2024-02-20T19:37:19.3634566+01:00",
+    "Description": "23123123",
+    "Amount": 213123123,
     "TransactionCategory": 0
   }
 ]

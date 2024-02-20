@@ -8,6 +8,7 @@ namespace PersonalFinanceTracker {
     public class UserInterface {
 
         // Function that initialises and subsequently starts the UI.
+        public static IFinance finance = new FinanceTracker();
         public static void InitialiseUI() {
             // Setting initial console parameters
             Console.Clear();
@@ -372,7 +373,6 @@ namespace PersonalFinanceTracker {
                 }
                 // If Save
                 if(choice == 0) {
-                    IFinance finance = new FinanceTracker();
                     string passedDescription = "";
                     if(description != null) passedDescription = description;
                     decimal passedAmount = 0;
