@@ -45,4 +45,13 @@ namespace PersonalFinanceTracker {
             return false;
         }
     }
+
+    public class FinanceSummary: IFinanceSummary
+    {
+        public decimal GetSummary(List<Transaction> transactions, Transaction.Category category)
+        {
+            Summary summary = new Summary(transactions, category);
+            return summary.Amount;
+        }
+    }
 }

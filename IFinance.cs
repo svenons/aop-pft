@@ -5,4 +5,7 @@ namespace PersonalFinanceTracker {
         public List<Transaction> GetTransactions();
         public bool setFinanceCategory(Transaction transaction, string category);
     }
+    public interface IFinanceSummary {
+        public decimal GetSummary(List<Transaction> transactions, Transaction.Category category);
+    }
 }
