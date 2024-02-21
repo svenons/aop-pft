@@ -29,6 +29,7 @@ namespace PersonalFinanceTracker {
                     break;
 
                 case 2:
+                    ListTransactionsMenu();
                     break;
 
                 case 3:
@@ -388,6 +389,65 @@ namespace PersonalFinanceTracker {
         }
 
         public static void DeleteTransactionMenu() {
+
+        }
+
+        public static void ListTransactionsMenu() {
+            {
+        Console.Clear();
+        Console.CursorVisible = false; // hiding the cursor
+
+        int selectedIndex = 0;
+        var transactions = finance.GetTransactions();
+        bool continueRunning = true;
+
+        do
+        {
+            Console.Clear();
+            // Display a header for the List of Transactions
+            Console.WriteLine("List of Transactions");
+            Console.WriteLine("======================\n");
+
+            // Display table headers for transactions
+            Console.WriteLine($"{"Date",-12} {"Description",-25} {"Amount",-25} {"Category",-15}");
+            Console.WriteLine(new string('-', 76)); // Separator line
+
+            // Loop to display transactions with current selection highlighted
+            for (int i = 0; i < transactions.Count; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+
+                Console.WriteLine($"{transactions[i].Date,-12:yyyy-MM-dd} {transactions[i].Description,-25} {transactions[i].Amount,-25:C} {transactions[i].TransactionCategory,-15}");
+
+                Console.ResetColor();
+            }
+
+            Console.WriteLine("\nUse arrow keys to navigate, Enter to select, Esc to exit.");
+
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : transactions.Count - 1;
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex < transactions.Count - 1) ? selectedIndex + 1 : 0;
+                    break;
+                case ConsoleKey.Enter:
+                    // Implement action on selected transaction
+                    Console.WriteLine($"Action on transaction: {transactions[selectedIndex].Description}");
+                    Console.ReadKey(); // Wait for key to return to menu
+                    break;
+                case ConsoleKey.Escape:
+                    continueRunning = false;
+                    break;
+            }
+        } while (continueRunning);
+    }
 
         }
 
