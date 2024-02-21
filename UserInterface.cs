@@ -543,12 +543,68 @@ namespace PersonalFinanceTracker {
                             Console.CursorVisible = true;
                             Console.Write($"New {menuItems[currentSelection]} : ");
                             string replace = GetInputAtBottom();
-                            editing = false;
+
+                            var oldTransaction = selectedTransaction;
+                            bool changed = false;
+                            if (currentSelection == 0)
+                            {
+                                selectedTransaction.Description = replace;
+                                changed = true;
+                            }
+                            else if (currentSelection == 1)
+                            {
+                                if (decimal.TryParse(replace, out decimal newAmount))
+                                {
+                                    selectedTransaction.Amount = newAmount;
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Please enter a valid decimal number.");
+                                }
+                            }
+                            else if (currentSelection == 2)
+                            {
+                                if (Enum.TryParse(replace, out Transaction.Category newCategory))
+                                {
+                                    selectedTransaction.TransactionCategory = newCategory;
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Please enter a valid category.");
+                                }
+                            }
+                            else if (currentSelection == 3)
+                            {
+                                if (DateTime.TryParse(replace, out DateTime newDate))
+                                {
+                                    selectedTransaction.Date = newDate;
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Please enter a valid date and time.");
+                                }
+                            }
+
+                            if (finance.editTransaction(oldTransaction, selectedTransaction) && changed)
+                            {
+                                finance.Save();
+                                editing = false;
+                            }
                             break;
                         }
                         else if (currentSelection == 4)
                         {
-                            Console.WriteLine("Delete that shit");
+                            if (finance.RemoveTransaction(selectedTransaction))
+                            {
+                                finance.Save();
+                                editing = false;
+                            }
                             break;
                         }
                         else if (currentSelection == 5) {

@@ -1,30 +1,23 @@
 [
   {
-    "ID": "49b0c447-f20d-4538-840b-7091da99afda",
-    "Date": "2024-02-20T19:39:41.9313076+01:00",
-    "Description": "312312312",
-    "Amount": 213213123,
+    "ID": "985759e0-14e6-4f0f-8895-8c8df00fc2a8",
+    "Date": "2024-02-21T22:11:24.2861184+01:00",
+    "Description": "Test 1",
+    "Amount": 22000,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "d6e7771c-3c6e-441e-801c-617349f0f4bd",
+    "Date": "2024-02-21T22:11:32.6610315+01:00",
+    "Description": "Test 2",
+    "Amount": 100,
     "TransactionCategory": 1
   },
   {
-    "ID": "ed61a2d4-6c26-4db2-af45-9a9c9ede699f",
-    "Date": "2024-02-20T20:34:51.480426+01:00",
-    "Description": "123123123",
-    "Amount": 1231231231,
+    "ID": "1b9fb556-582e-4444-bfbf-d2a7661ac60a",
+    "Date": "2024-02-21T21:04:00",
+    "Description": "Test 3",
+    "Amount": 3300,
     "TransactionCategory": 1
-  },
-  {
-    "ID": "c40ac2f8-a986-4925-b71c-8799469bf8a4",
-    "Date": "2024-02-21T21:19:02.3730032+01:00",
-    "Description": "Test Trasnaction 3",
-    "Amount": 21417248123,
-    "TransactionCategory": 3
-  },
-  {
-    "ID": "1a14eff1-803a-4e7a-b8d7-b7625cd8463d",
-    "Date": "2024-02-21T22:05:12.8538469+01:00",
-    "Description": "Test Transaction 4",
-    "Amount": 12342132,
-    "TransactionCategory": 2
   }
 ]
