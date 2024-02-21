@@ -19,5 +19,12 @@
     "Description": "Test Trasnaction 3",
     "Amount": 21417248123,
     "TransactionCategory": 3
+  },
+  {
+    "ID": "1a14eff1-803a-4e7a-b8d7-b7625cd8463d",
+    "Date": "2024-02-21T22:05:12.8538469+01:00",
+    "Description": "Test Transaction 4",
+    "Amount": 12342132,
+    "TransactionCategory": 2
   }
 ]

@@ -439,8 +439,8 @@ namespace PersonalFinanceTracker {
                     break;
                 case ConsoleKey.Enter:
                     // Implement action on selected transaction
-                    Console.WriteLine($"Action on transaction: {transactions[selectedIndex].Description}");
-                    Console.ReadKey(); // Wait for key to return to menu
+                    EditOrDeleteTransactionMenu(transactions[selectedIndex]);
+                    //Console.WriteLine($"Action on transaction: {transactions[selectedIndex].Description}");
                     break;
                 case ConsoleKey.Escape:
                     continueRunning = false;
@@ -450,6 +450,122 @@ namespace PersonalFinanceTracker {
     }
 
         }
+
+        public static void EditOrDeleteTransactionMenu(Transaction selectedTransaction)
+        {
+            int mainMenuWidth = 50;
+            int mainMenuHeight = 7; // Increased by one to accommodate delete option
+            int leftIndent = (Console.WindowWidth - mainMenuWidth) / 2 - 1;
+            int topIndent = (Console.WindowHeight - mainMenuHeight) / 2 - 3;
+
+            Console.Clear();
+            Console.SetCursorPosition(leftIndent + 13, topIndent - 1);
+            Console.WriteLine("Edit/Delete Transaction");
+
+            // Drawing window outlines as per CreateTransactionMenu
+            // Start
+            Console.SetCursorPosition(leftIndent, topIndent);
+            Console.Write('\u2554'); // Top left corner
+            for(int i = 0; i <= mainMenuWidth - 2; ++i) Console.Write('\u2550'); // Top border
+            Console.Write('\u2557'); // Top right corner
+
+            for(int i = 0; i <= mainMenuHeight - 2; ++i) {
+                Console.SetCursorPosition(leftIndent, Console.CursorTop + 1);
+                Console.Write('\u2551'); // Left border
+                Console.SetCursorPosition(leftIndent + mainMenuWidth, Console.CursorTop);
+                Console.Write('\u2551'); // Right border
+            }
+
+            Console.SetCursorPosition(leftIndent, topIndent + mainMenuHeight);
+            Console.Write('\u255A'); // Bottom left corner
+            for(int i = 0; i <= mainMenuWidth - 2; ++i) Console.Write('\u2550'); // Bottom border
+            Console.Write('\u255D'); // Bottom right corner
+            // End
+
+            string[] menuItems = { "Description", "Amount", "Category", "Date", "Delete Transaction", "Go Back" };
+            string description = selectedTransaction.Description;
+            decimal? amount = selectedTransaction.Amount;
+            DateTime date = selectedTransaction.Date;
+            Transaction.Category? category = selectedTransaction.TransactionCategory;
+
+            // Loop for input handling (similar to CreateTransactionMenu)
+            int currentSelection = 0;
+            bool editing = true;
+
+            while(editing) {
+                for(int i = 0; i < menuItems.Length; ++i) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    Console.Write(new string(' ', mainMenuWidth - 4));
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    if (i <= 3) {
+                        Console.Write($"{(i == currentSelection ? "> " : "")}{menuItems[i]}: ");
+                    }
+                    else {
+                        Console.Write($"{(i == currentSelection ? "> " : "")}{menuItems[i]}");
+                    }
+                    // Display current values
+                    switch(i) {
+                        case 0:
+                            Console.Write(description);
+                            break;
+                        case 1:
+                            Console.Write($"{amount} Kr");
+                            break;
+                        case 2:
+                            Console.Write(category.ToString());
+                            break;
+                        case 3:
+                            Console.Write(date.ToString("yyyy-MM-dd HH:mm"));
+                            break;
+                        case 4:
+                            // No additional info needed for delete option
+                            break;
+                        case 5:
+                            break;
+                    }
+                }
+
+                // Input handling
+                var keyread = Console.ReadKey(true).Key;
+                switch(keyread) {
+                    case ConsoleKey.UpArrow:
+                        currentSelection = (currentSelection > 0) ? currentSelection - 1 : menuItems.Length - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        currentSelection = (currentSelection < menuItems.Length - 1) ? currentSelection + 1 : 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        if(currentSelection <= 3)
+                        {
+                            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                            Console.Write(new string(' ', Console.WindowWidth - 2));
+                            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                            Console.CursorVisible = true;
+                            Console.Write($"New {menuItems[currentSelection]} : ");
+                            string replace = GetInputAtBottom();
+                            editing = false;
+                            break;
+                        }
+                        else if (currentSelection == 4)
+                        {
+                            Console.WriteLine("Delete that shit");
+                            break;
+                        }
+                        else if (currentSelection == 5) {
+                            editing = false;
+                            break;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        editing = false;
+                        break;
+                }
+            }
+
+            // Implement the logic to edit fields based on currentSelection
+            // and confirm deletion if "Delete Transaction" is selected.
+        }
+
 
         // Own quick Console.ReadLine() implementation:
         //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.
