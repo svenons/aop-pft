@@ -1,16 +1,184 @@
 [
   {
-    "ID": "49b0c447-f20d-4538-840b-7091da99afda",
-    "Date": "2024-02-20T19:39:41.9313076+01:00",
-    "Description": "312312312",
-    "Amount": 213213123,
+    "ID": "d6e7771c-3c6e-441e-801c-617349f0f4bd",
+    "Date": "2024-02-21T22:11:32.6610315+01:00",
+    "Description": "Test 1",
+    "Amount": 100,
+    "TransactionCategory": 4
+  },
+  {
+    "ID": "1b9fb556-582e-4444-bfbf-d2a7661ac60a",
+    "Date": "2024-02-21T21:04:00",
+    "Description": "Test 3",
+    "Amount": 3300,
     "TransactionCategory": 1
   },
   {
-    "ID": "ed61a2d4-6c26-4db2-af45-9a9c9ede699f",
-    "Date": "2024-02-20T20:34:51.480426+01:00",
-    "Description": "123123123",
-    "Amount": 1231231231,
-    "TransactionCategory": 1
+    "ID": "ebd19bc3-34d2-4582-9fc8-beebff80f4ff",
+    "Date": "1980-01-01T00:00:00",
+    "Description": "Test 2",
+    "Amount": -500,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "9a086ff3-b9ad-4647-b63a-395571208603",
+    "Date": "2024-02-22T16:48:36.4466655+01:00",
+    "Description": "srghrsftg",
+    "Amount": 4356,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "1078f0cd-89bb-4583-9b94-4d2e40497e71",
+    "Date": "2024-02-22T16:48:40.1996033+01:00",
+    "Description": "dfgjfg",
+    "Amount": 456,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "8ec1afca-0b83-490e-899f-49a3209cb8b0",
+    "Date": "2024-02-22T16:48:43.7687694+01:00",
+    "Description": "457",
+    "Amount": 3456354,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "f1d79a47-4d4c-467a-bfc0-171b664d979e",
+    "Date": "2024-02-22T16:48:46.7575193+01:00",
+    "Description": "54675",
+    "Amount": 547546,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "3074da29-d3b7-4d2a-8aa4-96db46a9a6d1",
+    "Date": "2024-02-22T16:48:49.1505096+01:00",
+    "Description": "546754",
+    "Amount": 56754,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "fafb478c-a2b9-47da-a61d-c58db210ef5f",
+    "Date": "2024-02-22T16:48:52.2654685+01:00",
+    "Description": "546754",
+    "Amount": 56754,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "a4cb3a8b-1c3a-4dfb-80f5-7944e3a69991",
+    "Date": "2024-02-22T16:48:56.3504787+01:00",
+    "Description": "23456",
+    "Amount": 245642,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "40ea9c0c-c33f-4017-afee-a2565205264a",
+    "Date": "2024-02-22T16:48:59.769505+01:00",
+    "Description": "2346",
+    "Amount": 326,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "513e0f95-9680-4510-9e76-0defe5ffa5b5",
+    "Date": "2024-02-22T16:49:03.2204487+01:00",
+    "Description": "2346523",
+    "Amount": 76867,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "5632a0f3-6365-4926-a6cb-68486ce8f898",
+    "Date": "2024-02-22T16:49:05.8885408+01:00",
+    "Description": "366",
+    "Amount": 555,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "ebd112da-df1a-47e6-b9b7-02f64cdf33fb",
+    "Date": "2024-02-22T16:49:08.1154507+01:00",
+    "Description": "3547",
+    "Amount": 13245,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "f85df416-90c6-494d-9526-ac9d5b443e14",
+    "Date": "2024-02-22T16:49:11.0563512+01:00",
+    "Description": "247",
+    "Amount": 1325,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "7aca58e1-c685-4ab1-a851-63022dc83a78",
+    "Date": "2024-02-22T16:49:14.7113749+01:00",
+    "Description": "3246",
+    "Amount": 456,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "a3613fe0-4ed5-43b6-873c-ee54958647da",
+    "Date": "2024-02-22T16:49:17.2443933+01:00",
+    "Description": "36",
+    "Amount": 678,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "d00e6d95-cfcb-43a8-bca3-dd49dc4144f3",
+    "Date": "2024-02-22T16:49:19.8482961+01:00",
+    "Description": "3456",
+    "Amount": 2346,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "ad94d682-92a1-40fa-99c0-9f3b143721be",
+    "Date": "2024-02-22T16:49:21.8673767+01:00",
+    "Description": "58",
+    "Amount": 235,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "e6469592-c4dc-4629-9d25-60e45e395fdc",
+    "Date": "2024-02-22T16:49:23.7463115+01:00",
+    "Description": "679",
+    "Amount": 235,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "169e0d3e-4f27-43b9-8436-0dffc85ae083",
+    "Date": "2024-02-22T16:49:25.6082813+01:00",
+    "Description": "679",
+    "Amount": 34,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "b341f4a2-39a3-47ca-b521-9b17fb9eb26c",
+    "Date": "2024-02-22T16:49:27.4112476+01:00",
+    "Description": "789",
+    "Amount": 456,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "2968a2f1-80a1-4e7c-9685-7321b0245748",
+    "Date": "2024-02-22T16:49:29.3184611+01:00",
+    "Description": "780",
+    "Amount": 456,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "7fdfbd62-52bf-4e2f-a742-2ae6c0647d75",
+    "Date": "2024-02-22T16:49:31.1602868+01:00",
+    "Description": "780",
+    "Amount": 4356,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "f40f1b0e-cce7-4bde-82d1-25bf85b5fe8c",
+    "Date": "2024-02-22T16:49:32.922241+01:00",
+    "Description": "780",
+    "Amount": 4356,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "4c711c76-badc-43c5-b66d-5f0845a39386",
+    "Date": "2024-02-22T16:49:34.6582403+01:00",
+    "Description": "789",
+    "Amount": 456,
+    "TransactionCategory": 0
   }
 ]

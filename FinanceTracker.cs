@@ -22,6 +22,22 @@ namespace PersonalFinanceTracker {
             }
             return false;
         }
+        public bool editTransaction(Transaction transaction, Transaction newTransaction)
+        {
+            if (Transactions != null)
+            {
+                int index = Transactions.IndexOf(transaction);
+                if (index != -1)
+                {
+                    Transactions[index].Description = newTransaction.Description;
+                    Transactions[index].Amount = newTransaction.Amount;
+                    Transactions[index].Date = newTransaction.Date;
+                    Transactions[index].TransactionCategory = newTransaction.TransactionCategory;
+                    return true;
+                }
+            }
+            return false;
+        }
         public List<Transaction> GetTransactions()
         {
             if (Transactions == null)

@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Transactions;
 
 namespace PersonalFinanceTracker {
     public class UserInterface {
@@ -26,16 +27,15 @@ namespace PersonalFinanceTracker {
                     break;
                 
                 case 1:
+                ListTransactionsMenu();
                     break;
 
                 case 2:
-                    break;
-
-                case 3:
+                    
                     break;
 
                 // Case for exiting the application. Resetting console to workable state, and then quitting.
-                case 4:
+                case 3:
                     Console.SetCursorPosition(0, 0);
                     Console.CursorVisible = true;
                     Console.Clear();
@@ -48,7 +48,7 @@ namespace PersonalFinanceTracker {
         public static int MainMenu() {
             // Setting Parameters
             int mainMenuWidth = 30;
-            int mainMenuHeight = 6;
+            int mainMenuHeight = 5;
             int leftIndent = (Console.WindowWidth-mainMenuWidth)/2 -1;
             int topIndent = (Console.WindowHeight-mainMenuHeight)/2 -1;
             
@@ -77,11 +77,11 @@ namespace PersonalFinanceTracker {
 
             // Write Options to the screen
             int currentSelection = 0;
-            string[] menuItems = {"Add Transaction", "Remove Transaction", "List Transactions", "Financial Statement", "Exit"};
+            string[] menuItems = {"Add Transaction", "List Transactions", "Financial Statement", "Exit"};
 
             // Loop Until Enter Key is pressed to select option
             while(true) {
-                for(int _ = 0; _ <= 4; ++_) {
+                for(int _ = 0; _ <= 3; ++_) {
                     Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + _);
                     Console.Write($"{(_ == currentSelection ? "> " : "")}{menuItems[_]}  ");
                 }
@@ -90,12 +90,12 @@ namespace PersonalFinanceTracker {
                 ConsoleKey userInput = Console.ReadKey().Key;
                 switch(userInput) {
                     case ConsoleKey.DownArrow:
-                        if(currentSelection == 4) currentSelection = 0;
+                        if(currentSelection == 3) currentSelection = 0;
                         else ++currentSelection;
                         break;
                     
                     case ConsoleKey.UpArrow:
-                        if(currentSelection == 0) currentSelection =4;
+                        if(currentSelection == 0) currentSelection =3;
                         else --currentSelection;
                         break;
 
@@ -289,7 +289,7 @@ namespace PersonalFinanceTracker {
                                 bool conversionWorked = DateTime.TryParse(input, out DateTime testDate);
                                 if(input.Length != 0 && !conversionWorked) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
-                                    Console.Write("Enter date and time as YYYY-MM-DD HH:MM (24 Hour), or leave blank for now.");
+                                    Console.Write("Enter date and time as dd.MM.yyyy HH:MM (24 Hour), or leave blank for now.");
                                     date = DateTime.MinValue;
                                 } else if(input.Length == 0) date = DateTime.Now;
                                 else date = testDate;
@@ -387,9 +387,302 @@ namespace PersonalFinanceTracker {
             }
         }
 
-        public static void DeleteTransactionMenu() {
+        public static void ListTransactionsMenu() {
+            {
+        Console.Clear();
+        Console.CursorVisible = false; // hiding the cursor
+
+        int selectedIndex = 0;
+        var transactions = finance.GetTransactions();
+        bool continueRunning = true;
+
+        do
+        {
+            Console.Clear();
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 8 + transactions.Count);
+            // Display a header for the List of Transactions
+            Console.WriteLine("List of Transactions");
+            Console.WriteLine("======================\n");
+
+            // Display table headers for transactions
+            Console.WriteLine($"{"Date",-12} {"Description",-33} {"Amount",-17} {"Category",-14}");
+            Console.WriteLine(new string('-', 80)); // Separator line
+
+            // Loop to display transactions with current selection highlighted
+            for (int i = 0; i < transactions.Count; i++)
+            {
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+
+                Console.WriteLine($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33} {transactions[i].Amount + " Kr.",-18} {transactions[i].TransactionCategory,-14}");
+
+                Console.ResetColor();
+            }
+
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine("Use arrow keys to navigate, Enter to select, Esc to exit.");
+            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0,5 + selectedIndex + 2);
+
+            var key = Console.ReadKey(true).Key;
+            switch (key)
+            {
+                case ConsoleKey.UpArrow:
+                    selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : transactions.Count - 1;
+                    if(selectedIndex > 0) Console.SetCursorPosition(0, Console.CursorTop - 1);
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectedIndex = (selectedIndex < transactions.Count - 1) ? selectedIndex + 1 : 0;
+                    if(selectedIndex < transactions.Count - 1) Console.SetCursorPosition(0, Console.CursorTop + 1);
+                    break;
+                case ConsoleKey.Enter:
+                    // Implement action on selected transaction
+                    if(EditOrDeleteTransactionMenu(transactions[selectedIndex])) --selectedIndex;
+                    Console.CursorVisible = false;
+                    //Console.WriteLine($"Action on transaction: {transactions[selectedIndex].Description}");
+                    break;
+                case ConsoleKey.Escape:
+                    continueRunning = false;
+                    break;
+            }
+        } while (continueRunning);
+    }
 
         }
+
+        public static bool EditOrDeleteTransactionMenu(Transaction selectedTransaction)
+        {
+            int mainMenuWidth = 50;
+            int mainMenuHeight = 7; // Increased by one to accommodate delete option
+            int leftIndent = (Console.WindowWidth - mainMenuWidth) / 2 - 1;
+            int topIndent = (Console.WindowHeight - mainMenuHeight) / 2 - 3;
+
+            Console.Clear();
+            Console.CursorVisible = false;
+            Console.SetCursorPosition(leftIndent + 13, topIndent - 1);
+            Console.WriteLine("Edit/Delete Transaction");
+
+            // Drawing window outlines as per CreateTransactionMenu
+            // Start
+            Console.SetCursorPosition(leftIndent, topIndent);
+            Console.Write('\u2554'); // Top left corner
+            for(int i = 0; i <= mainMenuWidth - 2; ++i) Console.Write('\u2550'); // Top border
+            Console.Write('\u2557'); // Top right corner
+
+            for(int i = 0; i <= mainMenuHeight - 2; ++i) {
+                Console.SetCursorPosition(leftIndent, Console.CursorTop + 1);
+                Console.Write('\u2551'); // Left border
+                Console.SetCursorPosition(leftIndent + mainMenuWidth, Console.CursorTop);
+                Console.Write('\u2551'); // Right border
+            }
+
+            Console.SetCursorPosition(leftIndent, topIndent + mainMenuHeight);
+            Console.Write('\u255A'); // Bottom left corner
+            for(int i = 0; i <= mainMenuWidth - 2; ++i) Console.Write('\u2550'); // Bottom border
+            Console.Write('\u255D'); // Bottom right corner
+            // End
+
+            string[] menuItems = { "Description", "Amount", "Category", "Date", "Delete Transaction", "Go Back" };
+            string description = selectedTransaction.Description;
+            decimal? amount = selectedTransaction.Amount;
+            DateTime date = selectedTransaction.Date;
+            Transaction.Category? categoryReplace = selectedTransaction.TransactionCategory;
+
+            // Loop for input handling (similar to CreateTransactionMenu)
+            int currentSelection = 0;
+            bool editing = true;
+
+            while(editing) {
+                for(int i = 0; i < menuItems.Length; ++i) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    Console.Write(new string(' ', mainMenuWidth - 4));
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    if (i <= 3) {
+                        Console.Write($"{(i == currentSelection ? "> " : "")}{menuItems[i]}: ");
+                    }
+                    else {
+                        Console.Write($"{(i == currentSelection ? "> " : "")}{menuItems[i]}");
+                    }
+                    // Display current values
+                    switch(i) {
+                        case 0:
+                            Console.Write(description);
+                            break;
+                        case 1:
+                            Console.Write($"{amount} Kr");
+                            break;
+                        case 2:
+                            Console.Write(categoryReplace.ToString());
+                            break;
+                        case 3:
+                            Console.Write(date.ToString("dd.MM.yyyy HH:mm"));
+                            break;
+                        case 4:
+                            // No additional info needed for delete option
+                            break;
+                        case 5:
+                            break;
+                    }
+                }
+
+                // Input handling
+                var keyread = Console.ReadKey(true).Key;
+                switch(keyread) {
+                    case ConsoleKey.UpArrow:
+                        currentSelection = (currentSelection > 0) ? currentSelection - 1 : menuItems.Length - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        currentSelection = (currentSelection < menuItems.Length - 1) ? currentSelection + 1 : 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        if(currentSelection <= 3)
+                        {
+                            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                            Console.Write(new string(' ', Console.WindowWidth - 2));
+                            Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                            
+
+                            var oldTransaction = selectedTransaction;
+                            bool changed = false;
+                            if (currentSelection == 0)
+                            {
+                                while(true) {
+                                    Console.CursorVisible = true;
+                                    Console.Write($"New {menuItems[currentSelection]} : ");
+                                    string replace = GetInputAtBottom();
+                                    if(replace == "") {
+                                        Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                        Console.Write("Description cannot be empty.");
+                                        Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                                        continue;
+                                    }
+                                    selectedTransaction.Description = replace;
+                                    changed = true;
+                                    break;
+                                }
+                            }
+                            else if (currentSelection == 1)
+                            {
+                                Console.CursorVisible = true;
+                                Console.Write($"New {menuItems[currentSelection]} : ");
+                                string replace = GetInputAtBottom();
+                                if (decimal.TryParse(replace, out decimal newAmount))
+                                {
+                                    selectedTransaction.Amount = newAmount;
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Please enter a valid decimal number.");
+                                }
+                            }
+                            else if (currentSelection == 2)
+                            {
+                                // Clearing Bottom of screen, then getting input
+                                string clearString = new string(' ', Console.WindowWidth - 2);
+                                Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                Console.Write(clearString);
+                                Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                                Console.Write(clearString);
+                                Console.SetCursorPosition(0, Console.WindowHeight - 1);
+                                Console.CursorVisible = true;
+
+                                // Input functions identically to Main Menu
+                                int count = Enum.GetValues(typeof(Transaction.Category)).Length;
+                                int userSelection = 0;
+                                Console.CursorVisible = false;
+                                Transaction.Category? categoryReplacement = null;
+                                while(categoryReplacement == null) {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - count - 1);
+                                    Console.Write("Select Category: ");
+
+                                    for(int __ = 0; __ < count; ++__) {
+                                        Console.SetCursorPosition(0, Console.WindowHeight - count + __);
+                                        Console.Write($"{(__ == userSelection ? "> " : "")}{((Transaction.Category)__).ToString()}  ");
+                                    }
+
+                                    ConsoleKey userInput = Console.ReadKey().Key;
+                                    switch(userInput) {
+                                        case ConsoleKey.DownArrow:
+                                            if(userSelection == count - 1) userSelection = 0;
+                                            else ++userSelection;
+                                            break;
+                                        
+                                        case ConsoleKey.UpArrow:
+                                            if(userSelection == 0) userSelection = count - 1;
+                                            else --userSelection;
+                                            break;
+
+                                        case ConsoleKey.Enter:
+                                            categoryReplacement = (Transaction.Category)userSelection;
+                                            break;
+
+                                        default:
+                                            break;
+                                    }
+                                }
+                                // Clearing Up after the category selection
+                                for(int __ = 0; __ <= count; ++__) {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - count - 1 + __);
+                                    Console.Write(clearString);
+                                }
+                                selectedTransaction.TransactionCategory = (Transaction.Category)categoryReplacement;
+                                changed = true;
+                            }
+                            else if (currentSelection == 3)
+                            {
+                                Console.CursorVisible = true;
+                                Console.Write($"New {menuItems[currentSelection]} : ");
+                                string replace = GetInputAtBottom();
+                                if (DateTime.TryParse(replace, out DateTime newDate))
+                                {
+                                    selectedTransaction.Date = newDate;
+                                    changed = true;
+                                }
+                                else
+                                {
+                                    Console.SetCursorPosition(0, Console.WindowHeight - 2);
+                                    Console.Write("Please enter a valid date and time.");
+                                }
+                            }
+
+                            if (finance.editTransaction(oldTransaction, selectedTransaction) && changed)
+                            {
+                                finance.Save();
+                                editing = false;
+                            }
+                            break;
+                        }
+                        else if (currentSelection == 4)
+                        {
+                            if (finance.RemoveTransaction(selectedTransaction))
+                            {
+                                finance.Save();
+                                editing = false;
+                            }
+                            return true;
+                        }
+                        else if (currentSelection == 5) {
+                            editing = false;
+                            break;
+                        }
+                        break;
+                    case ConsoleKey.Escape:
+                        editing = false;
+                        break;
+                }
+            }
+            return false;
+
+            // Implement the logic to edit fields based on currentSelection
+            // and confirm deletion if "Delete Transaction" is selected.
+        }
+
 
         // Own quick Console.ReadLine() implementation:
         //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.
