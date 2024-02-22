@@ -1,17 +1,10 @@
 [
   {
-    "ID": "985759e0-14e6-4f0f-8895-8c8df00fc2a8",
-    "Date": "2024-02-21T22:11:24.2861184+01:00",
-    "Description": "Test 1",
-    "Amount": 22000,
-    "TransactionCategory": 0
-  },
-  {
     "ID": "d6e7771c-3c6e-441e-801c-617349f0f4bd",
     "Date": "2024-02-21T22:11:32.6610315+01:00",
-    "Description": "Test 2",
+    "Description": "Test 1",
     "Amount": 100,
-    "TransactionCategory": 1
+    "TransactionCategory": 4
   },
   {
     "ID": "1b9fb556-582e-4444-bfbf-d2a7661ac60a",
@@ -19,5 +12,12 @@
     "Description": "Test 3",
     "Amount": 3300,
     "TransactionCategory": 1
+  },
+  {
+    "ID": "ebd19bc3-34d2-4582-9fc8-beebff80f4ff",
+    "Date": "1980-01-01T00:00:00",
+    "Description": "Test 2",
+    "Amount": -500,
+    "TransactionCategory": 2
   }
 ]
