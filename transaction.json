@@ -180,19 +180,5 @@
     "Description": "789",
     "Amount": 456,
     "TransactionCategory": 0
-  },
-  {
-    "ID": "1028a3ea-6558-4102-90fd-931e2f025355",
-    "Date": "2024-02-22T16:49:36.3612281+01:00",
-    "Description": "789",
-    "Amount": 456,
-    "TransactionCategory": 0
-  },
-  {
-    "ID": "ed1859c9-fb3f-4c8e-b0b5-141023d790b4",
-    "Date": "2024-02-22T16:49:37.9122138+01:00",
-    "Description": "789",
-    "Amount": 5467,
-    "TransactionCategory": 0
   }
 ]

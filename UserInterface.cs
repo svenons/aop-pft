@@ -441,7 +441,7 @@ namespace PersonalFinanceTracker {
                     break;
                 case ConsoleKey.Enter:
                     // Implement action on selected transaction
-                    EditOrDeleteTransactionMenu(transactions[selectedIndex]);
+                    if(EditOrDeleteTransactionMenu(transactions[selectedIndex])) --selectedIndex;
                     Console.CursorVisible = false;
                     //Console.WriteLine($"Action on transaction: {transactions[selectedIndex].Description}");
                     break;
@@ -454,7 +454,7 @@ namespace PersonalFinanceTracker {
 
         }
 
-        public static void EditOrDeleteTransactionMenu(Transaction selectedTransaction)
+        public static bool EditOrDeleteTransactionMenu(Transaction selectedTransaction)
         {
             int mainMenuWidth = 50;
             int mainMenuHeight = 7; // Increased by one to accommodate delete option
@@ -665,7 +665,7 @@ namespace PersonalFinanceTracker {
                                 finance.Save();
                                 editing = false;
                             }
-                            break;
+                            return true;
                         }
                         else if (currentSelection == 5) {
                             editing = false;
@@ -677,6 +677,7 @@ namespace PersonalFinanceTracker {
                         break;
                 }
             }
+            return false;
 
             // Implement the logic to edit fields based on currentSelection
             // and confirm deletion if "Delete Transaction" is selected.
