@@ -13,5 +13,9 @@ namespace PersonalFinanceTracker
                 }
             }
         }
+
+        public [int, int] RetrieveMonths(List<transaction> transactions) {
+            
+        }
     }
 }
