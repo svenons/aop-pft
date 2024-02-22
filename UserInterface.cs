@@ -31,7 +31,7 @@ namespace PersonalFinanceTracker {
                     break;
 
                 case 2:
-                    
+                    SummaryMenu();
                     break;
 
                 // Case for exiting the application. Resetting console to workable state, and then quitting.
@@ -683,6 +683,11 @@ namespace PersonalFinanceTracker {
             // and confirm deletion if "Delete Transaction" is selected.
         }
 
+
+        public static void SummaryMenu() {
+            Summary summary = new();
+            List<Transaction> transactions = finance.GetTransactions();
+        }
 
         // Own quick Console.ReadLine() implementation:
         //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.

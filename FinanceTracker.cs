@@ -64,7 +64,7 @@ namespace PersonalFinanceTracker {
     {
         public decimal GetSummary(List<Transaction> transactions, Transaction.Category category)
         {
-            Summary summary = new Summary(transactions, category);
+            Summary summary = new();
             return summary.Amount;
         }
     }
