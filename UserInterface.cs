@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Transactions;
 
 namespace PersonalFinanceTracker {
     public class UserInterface {
@@ -398,6 +399,7 @@ namespace PersonalFinanceTracker {
         do
         {
             Console.Clear();
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 8 + transactions.Count);
             // Display a header for the List of Transactions
             Console.WriteLine("List of Transactions");
             Console.WriteLine("======================\n");
@@ -420,16 +422,22 @@ namespace PersonalFinanceTracker {
                 Console.ResetColor();
             }
 
-            Console.WriteLine("\nUse arrow keys to navigate, Enter to select, Esc to exit.");
+            Console.ResetColor();
+            Console.WriteLine(new string('-', 80));
+            Console.WriteLine("Use arrow keys to navigate, Enter to select, Esc to exit.");
+            Console.SetCursorPosition(0,0);
+            Console.SetCursorPosition(0,5 + selectedIndex + 2);
 
             var key = Console.ReadKey(true).Key;
             switch (key)
             {
                 case ConsoleKey.UpArrow:
                     selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : transactions.Count - 1;
+                    if(selectedIndex > 0) Console.SetCursorPosition(0, Console.CursorTop - 1);
                     break;
                 case ConsoleKey.DownArrow:
                     selectedIndex = (selectedIndex < transactions.Count - 1) ? selectedIndex + 1 : 0;
+                    if(selectedIndex < transactions.Count - 1) Console.SetCursorPosition(0, Console.CursorTop + 1);
                     break;
                 case ConsoleKey.Enter:
                     // Implement action on selected transaction
