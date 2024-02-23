@@ -685,8 +685,84 @@ namespace PersonalFinanceTracker {
 
 
         public static void SummaryMenu() {
-            Summary summary = new();
+            ChooseYearMenu();
+
+            //Summary summary = new();
+            //List<Transaction> transactions = finance.GetTransactions();
+        }
+
+        public static void ChooseYearMenu() {
+            Console.Clear();
+            Console.CursorVisible = false;
+
+            Summary summary = new Summary();
             List<Transaction> transactions = finance.GetTransactions();
+            List<int> years = summary.RetrieveYears(transactions);
+
+            if (years.Count == 0) {
+                Console.WriteLine("No transactions available.");
+                return; // Exit if there are no years to display
+            }
+
+            int selectedIndex = 0; // Default selection index
+            int menuWidth = 30;
+            int menuHeight = years.Count + 2; // Dynamic height based on the number of years
+            int leftIndent = (Console.WindowWidth - menuWidth) / 2;
+            int topIndent = (Console.WindowHeight - menuHeight) / 2;
+
+            // Drawing the window outline
+            Console.SetCursorPosition(leftIndent, topIndent);
+            Console.Write('\u2554'); // Top left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Top border
+            Console.Write('\u2557'); // Top right corner
+
+            for (int i = 0; i < menuHeight - 2; i++) {
+                Console.SetCursorPosition(leftIndent, topIndent + 1 + i);
+                Console.Write('\u2551'); // Left border
+                Console.SetCursorPosition(leftIndent + menuWidth - 1, topIndent + 1 + i);
+                Console.Write('\u2551'); // Right border
+            }
+
+            Console.SetCursorPosition(leftIndent, topIndent + menuHeight - 1);
+            Console.Write('\u255A'); // Bottom left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Bottom border
+            Console.Write('\u255D'); // Bottom right corner
+
+            // Displaying the years and navigating through them
+            bool continueRunning = true;
+            do {
+                for (int i = 0; i < years.Count; i++) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    if (i == selectedIndex) {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+
+                    Console.Write($"{(i == selectedIndex ? "> " : "  ")}{years[i]}".PadRight(menuWidth - 4));
+                    Console.ResetColor();
+                }
+
+                var key = Console.ReadKey(true).Key; // Read the key without displaying it
+                switch (key) {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : years.Count - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex < years.Count - 1) ? selectedIndex + 1 : 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        continueRunning = false; // Exit the loop on Enter
+                        break;
+                    case ConsoleKey.Escape:
+                        return; // Optional: Allow exiting the menu without a selection
+                }
+            } while (continueRunning);
+
+            int selectedYear = years[selectedIndex];
+            Console.Clear();
+            Console.WriteLine($"Year {selectedYear} selected."); // Implement later
+            Console.ReadKey(true); // Pause to see the selected year
+
         }
 
         // Own quick Console.ReadLine() implementation:
