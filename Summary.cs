@@ -8,98 +8,46 @@ namespace PersonalFinanceTracker
         public decimal Amount { get; set; }
         public Summary() {}
 
-        public List<int> RetrieveYears(List<Transaction> transactions) {
-            List<int> years = new List<int>();
-            
-            foreach(Transaction _ in transactions){
-                int Year = _.Date.Year;
-                if(!years.Contains(Year)){
-                    years.Add(Year);
-                }
-            }
-
-            int i, j;
-            int temp;
-            bool swapped;
-            for(i = 0; i < years.Count; ++i){
-                swapped = false;
-                for(j = 0; j < years.Count - i - 1; j++){
-                    if(years[j] > years[j + 1]){
-                        temp = years[j];
-                        years[j] = years[j + 1];
-                        years[j + 1] = temp;
-                        swapped = true;
-                    }
-                    
-                }
-                if(!swapped) break;
-            }
+        public List<int> RetrieveYears(List<Transaction> transactions)
+        {
+            List<int> years = transactions.Select(t => t.Date.Year).Distinct().ToList();
+            years.Sort();
             return years;
         }
 
-        public List<int[]> RetrieveMonths(List<Transaction> transactions) {
-            List<int[]> months = new List<int[]>();
-            
-            // Add all combinations of months and years to the list
-            foreach(Transaction _ in transactions) {
-                int[] monthYearCombo = {_.Date.Month, _.Date.Year};
-                if(!months.Contains(monthYearCombo)) {
-                    months.Add(monthYearCombo);
+        public List<int> RetrieveMonths(List<Transaction> transactions, int year)
+        {
+            List<int> months = new List<int>();
+
+            // Add all unique months to the list
+            foreach (Transaction _ in transactions)
+            {
+                if (_.Date.Year == year && !months.Contains(_.Date.Month))
+                {
+                    months.Add(_.Date.Month);
                 }
             }
 
-            // Sort the list by year, and then by month ascending. (Modified Bubble sort)
-            int i, j;
-            int[] temp;
-            bool swapped;
-            for(i = 0; i < months.Count; ++i) {
-                swapped = false;
-                for(j = 0; j < months.Count - i - 1; ++j) {
-                    // Concencating YYYY and MM to one integer is the easiest way to compare.
-                    string testString1 = months[j][1].ToString() + ((months[j][0] >= 10) ? "" : "0") + months[j][0].ToString();
-                    string testString2 = months[j + 1][1].ToString() + ((months[j + 1][0] >= 10) ? "" : "0") + months[j + 1][0].ToString();
-                    if(int.Parse(testString1) > int.Parse(testString2)) {
-                        temp = months[j];
-                        months[j] = months[j + 1];
-                        months[j + 1] = temp;
-                        swapped = true;
-                    }
-                }
-                if(!swapped) break;
-            }
+            // Sort the list in ascending order
+            months.Sort();
+
             return months;
         }
 
-        public List<int[]> RetrieveDays(List<Transaction> transactions) {
-            List<int[]> days = new List<int[]>();
-            
-            // Add all combinations of months and years to the list
-            foreach(Transaction _ in transactions) {
-                int[] DayMonthYearCombo = {_.Date.Day, _.Date.Month, _.Date.Year};
-                if(!days.Contains(DayMonthYearCombo)) {
-                    days.Add(DayMonthYearCombo);
+        public List<int> RetrieveDays(List<Transaction> transactions, int year, int month)
+        {
+            List<int> days = new List<int>();
+
+            foreach (Transaction _ in transactions)
+            {
+                if (_.Date.Year == year && _.Date.Month == month && !days.Contains(_.Date.Day))
+                {
+                    days.Add(_.Date.Day);
                 }
             }
 
-            // Sort the list by year, and then by month ascending. (Modified Bubble sort)
-            int i, j;
-            int[] temp;
-            bool swapped;
-            for(i = 0; i < days.Count; ++i) {
-                swapped = false;
-                for(j = 0; j < days.Count - i - 1; ++j) {
-                    // Concencating YYYY and MM to one integer is the easiest way to compare.
-                    string testString1 = days[j][2].ToString() + ((days[j][1] >= 10) ? "" : "0") + days[j][1].ToString() + ((days[j][0] >= 10) ? "" : "0") + days[j][0].ToString();
-                    string testString2 = days[j + 1][2].ToString() + ((days[j + 1][1] >= 10) ? "" : "0") + days[j + 1][1].ToString() + ((days[j + 1][0] >= 10) ? "" : "0") + days[j + 1][0].ToString();
-                    if(int.Parse(testString1) > int.Parse(testString2)) {
-                        temp = days[j];
-                        days[j] = days[j + 1];
-                        days[j + 1] = temp;
-                        swapped = true;
-                    }
-                }
-                if(!swapped) break;
-            }
+            days.Sort();
+
             return days;
         }
 
