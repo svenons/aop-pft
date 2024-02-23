@@ -40,5 +40,12 @@
     "Description": "Test 6",
     "Amount": 6789,
     "TransactionCategory": 2
+  },
+  {
+    "ID": "21f56cbb-cb76-45d7-81f4-c4a1f4a6d33e",
+    "Date": "2024-02-23T16:54:58.5314585+01:00",
+    "Description": "Test Last",
+    "Amount": 2000,
+    "TransactionCategory": 2
   }
 ]

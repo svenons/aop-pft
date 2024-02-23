@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Transactions;
 
@@ -700,13 +701,17 @@ namespace PersonalFinanceTracker {
             List<int> years = summary.RetrieveYears(transactions);
 
             if (years.Count == 0) {
-                Console.WriteLine("No transactions available.");
-                return; // Exit if there are no years to display
+                return; // Exit if there are no transactions, lol
+            }
+            else if (years.Count == 1)
+            {
+                ChooseMonthMenu(years[0]);
+                return;
             }
 
-            int selectedIndex = 0; // Default selection index
+            int selectedIndex = 0;
             int menuWidth = 30;
-            int menuHeight = years.Count + 2; // Dynamic height based on the number of years
+            int menuHeight = years.Count + 2;
             int leftIndent = (Console.WindowWidth - menuWidth) / 2;
             int topIndent = (Console.WindowHeight - menuHeight) / 2;
 
@@ -754,16 +759,182 @@ namespace PersonalFinanceTracker {
                         continueRunning = false; // Exit the loop on Enter
                         break;
                     case ConsoleKey.Escape:
-                        return; // Optional: Allow exiting the menu without a selection
+                        return;
                 }
             } while (continueRunning);
 
             int selectedYear = years[selectedIndex];
             Console.Clear();
-            Console.WriteLine($"Year {selectedYear} selected."); // Implement later
-            Console.ReadKey(true); // Pause to see the selected year
 
+            ChooseMonthMenu(selectedYear);
         }
+
+        public static void ChooseMonthMenu(int selectedYear) {
+            Console.Clear();
+            Console.CursorVisible = false;
+
+            Summary summary = new Summary();
+            List<Transaction> transactions = finance.GetTransactions();
+            List<int> monthList = summary.RetrieveMonths(transactions, selectedYear);
+
+            // Add "All" option if there are multiple months
+            if (monthList.Count > 1) {
+                monthList.Insert(0, 0); // Insert "All" at the beginning represented by 0
+            }
+            else if (monthList.Count == 1) // If only 1 choice, skip to the day menu
+            {
+                ChooseDayMenu(selectedYear, monthList[0]);
+                return;
+            }
+
+            int selectedIndex = 0;
+            int menuWidth = 30;
+            int menuHeight = monthList.Count + 2;
+            int leftIndent = (Console.WindowWidth - menuWidth) / 2;
+            int topIndent = (Console.WindowHeight - menuHeight) / 2;
+
+            // Drawing the window outline
+            Console.SetCursorPosition(leftIndent, topIndent);
+            Console.Write('\u2554'); // Top left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Top border
+            Console.Write('\u2557'); // Top right corner
+
+            for (int i = 0; i < menuHeight - 2; i++) {
+                Console.SetCursorPosition(leftIndent, topIndent + 1 + i);
+                Console.Write('\u2551'); // Left border
+                Console.SetCursorPosition(leftIndent + menuWidth - 1, topIndent + 1 + i);
+                Console.Write('\u2551'); // Right border
+            }
+
+            Console.SetCursorPosition(leftIndent, topIndent + menuHeight - 1);
+            Console.Write('\u255A'); // Bottom left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Bottom border
+            Console.Write('\u255D'); // Bottom right corner
+
+            // Displaying "All" and the months, and navigating through them
+            bool continueRunning = true;
+            do {
+                for (int i = 0; i < monthList.Count; i++) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    if (i == selectedIndex) {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+
+                    // Display "All" for 0, or the month name for others using CultureInfo
+                    string displayText = monthList[i] == 0 ? "All" : CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(monthList[i]);
+                    Console.Write($"{(i == selectedIndex ? "> " : "  ")}{displayText}".PadRight(menuWidth - 4));
+                    Console.ResetColor();
+                }
+
+                var key = Console.ReadKey(true).Key;
+                switch (key) {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : monthList.Count - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex < monthList.Count - 1) ? selectedIndex + 1 : 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        continueRunning = false; // Exit the loop on Enter
+                        break;
+                    case ConsoleKey.Escape:
+                        return; // Optional: Allow exiting the menu without a selection
+                }
+             } while (continueRunning);
+
+            int selectedMonth = monthList[selectedIndex]; // This will be the actual month number or 0 for "All"
+            Console.Clear();
+
+            ChooseDayMenu(selectedYear, selectedMonth);
+        }
+
+        public static void ChooseDayMenu(int selectedYear, int selectedMonth) {
+            Console.Clear();
+            Console.CursorVisible = false;
+
+            Summary summary = new Summary();
+            List<Transaction> transactions = finance.GetTransactions();
+            List<int> dayList = summary.RetrieveDays(transactions, selectedYear, selectedMonth);
+
+            // Add "All" option if there are multiple days
+            if (dayList.Count > 1) {
+                dayList.Insert(0, 0); // Insert "All" at the beginning represented by 0
+            }
+            /*else if (dayList.Count == 1)
+            {
+                // SKIP TO THE SUMMARY
+                return;
+            } */
+            //UNCOMMENT THIS WHEN FINISHED!!!
+
+            int selectedIndex = 0; // Default selection index
+            int menuWidth = 30;
+            int menuHeight = dayList.Count + 2; // Adjust height based on the day list
+            int leftIndent = (Console.WindowWidth - menuWidth) / 2;
+            int topIndent = (Console.WindowHeight - menuHeight) / 2;
+
+            // Drawing the window outline, at this point im just copying this.....
+            Console.SetCursorPosition(leftIndent, topIndent);
+            Console.Write('\u2554'); // Top left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Top border
+            Console.Write('\u2557'); // Top right corner
+
+            for (int i = 0; i < menuHeight - 2; i++) {
+                Console.SetCursorPosition(leftIndent, topIndent + 1 + i);
+                Console.Write('\u2551'); // Left border
+                Console.SetCursorPosition(leftIndent + menuWidth - 1, topIndent + 1 + i);
+                Console.Write('\u2551'); // Right border
+            }
+
+            Console.SetCursorPosition(leftIndent, topIndent + menuHeight - 1);
+            Console.Write('\u255A'); // Bottom left corner
+            for (int i = 0; i < menuWidth - 2; i++) Console.Write('\u2550'); // Bottom border
+            Console.Write('\u255D'); // Bottom right corner
+
+            // Displaying "All" (if applicable) and the days, and navigating through them
+            bool continueRunning = true;
+            do {
+                for (int i = 0; i < dayList.Count; i++) {
+                    Console.SetCursorPosition(leftIndent + 2, topIndent + 1 + i);
+                    if (i == selectedIndex) {
+                        Console.BackgroundColor = ConsoleColor.Gray;
+                        Console.ForegroundColor = ConsoleColor.Black;
+                    }
+
+                    // Display "All" for 0, or the day number for others
+                    string displayText = dayList[i] == 0 ? "All" : dayList[i].ToString();
+                    Console.Write($"{(i == selectedIndex ? "> " : "  ")}{displayText}".PadRight(menuWidth - 4));
+                    Console.ResetColor();
+                }
+
+                var key = Console.ReadKey(true).Key;
+                switch (key) {
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : dayList.Count - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex < dayList.Count - 1) ? selectedIndex + 1 : 0;
+                        break;
+                    case ConsoleKey.Enter:
+                        continueRunning = false; // Exit the loop on Enter
+                        break;
+                    case ConsoleKey.Escape:
+                        return; // Optional: Allow exiting the menu without a selection
+                }
+            } while (continueRunning);
+
+            int selectedDay = dayList[selectedIndex]; // This will be the actual day number or 0 for "All"
+            Console.Clear();
+            // Display the selection appropriately
+            string selectedDayText = selectedDay == 0 ? "All Days" : $"Day {selectedDay}";
+            var month = selectedMonth == 0 ? "All Months" : CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selectedMonth);
+            Console.WriteLine($"{selectedDayText} selected in Month {month} {selectedYear}"); // This is for now, while we dont have further code
+            Console.ReadKey(true); // Pause to see the selected day
+
+            // Proceed with actions based on the selected day - need to uncomment the code of .Count == 1, when finished with the statement section itself
+        }
+
 
         // Own quick Console.ReadLine() implementation:
         //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.
