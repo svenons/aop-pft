@@ -15,7 +15,7 @@ namespace PersonalFinanceTracker {
         
         // Parameterless constructor
         public Transaction() {
-            Description = "No description"; //added this to avoid null reference exception
+            Description = "No description"; //added this to avoid null reference exception, it was needed for json to load
         }
         public Transaction(DateTime date, string description, decimal amount, Category category) {
             Date = date;

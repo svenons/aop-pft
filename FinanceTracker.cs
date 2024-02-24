@@ -1,5 +1,3 @@
-using System.Xml.Linq;
-
 namespace PersonalFinanceTracker {
     public class FinanceTracker: IFinance{
         public List<Transaction>? Transactions { get; set; }
@@ -24,6 +22,22 @@ namespace PersonalFinanceTracker {
             }
             return false;
         }
+        public bool editTransaction(Transaction transaction, Transaction newTransaction)
+        {
+            if (Transactions != null)
+            {
+                int index = Transactions.IndexOf(transaction);
+                if (index != -1)
+                {
+                    Transactions[index].Description = newTransaction.Description;
+                    Transactions[index].Amount = newTransaction.Amount;
+                    Transactions[index].Date = newTransaction.Date;
+                    Transactions[index].TransactionCategory = newTransaction.TransactionCategory;
+                    return true;
+                }
+            }
+            return false;
+        }
         public List<Transaction> GetTransactions()
         {
             if (Transactions == null)
@@ -40,9 +54,9 @@ namespace PersonalFinanceTracker {
             }
             return false;
         }
-        public FinanceTracker()
+        public void Load()
         {
-            Transactions = storage.Load(); // Load transactions from file before starting
+            Transactions = storage.Load();
         }
     }
 
@@ -50,7 +64,7 @@ namespace PersonalFinanceTracker {
     {
         public decimal GetSummary(List<Transaction> transactions, Transaction.Category category)
         {
-            Summary summary = new Summary(transactions, category);
+            Summary summary = new();
             return summary.Amount;
         }
     }
