@@ -425,7 +425,11 @@ namespace PersonalFinanceTracker {
                 if(transactions[i].Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
                 else Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write($"{transactions[i].Amount + " Kr.",-18}");
-                Console.ResetColor();
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
                 
                 Console.WriteLine($" {transactions[i].TransactionCategory,-14}");
                 Console.ResetColor();
