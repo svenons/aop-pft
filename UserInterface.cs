@@ -1014,18 +1014,19 @@ namespace PersonalFinanceTracker {
             string input = "";
             while(true) {
                 ConsoleKeyInfo inputChar = Console.ReadKey(true);
-                if(inputChar.Key == ConsoleKey.Backspace && input.Length != 0) {
+                if(inputChar.Key == ConsoleKey.Backspace && input.Length != 0 && !(inputChar.Key == ConsoleKey.LeftArrow || inputChar.Key == ConsoleKey.RightArrow)) {
                     Console.SetCursorPosition(Console.CursorLeft -1, Console.CursorTop);
                     Console.Write(' ');
                     Console.SetCursorPosition(Console.CursorLeft -1, Console.CursorTop);
                     input = input.Remove(input.Length - 1, 1);
                 }
-                else if(inputChar.Key != ConsoleKey.Enter && inputChar.Key != ConsoleKey.Backspace) {
+                else if(inputChar.Key != ConsoleKey.Enter && inputChar.Key != ConsoleKey.Backspace && !(inputChar.Key == ConsoleKey.LeftArrow || inputChar.Key == ConsoleKey.RightArrow)) {
                     if(input.Length <= 31) {
                         Console.Write(inputChar.KeyChar);
                         input += inputChar.KeyChar;
                     }
                 } else if(inputChar.Key == ConsoleKey.Backspace) {}
+                else if(inputChar.Key == ConsoleKey.LeftArrow ||inputChar.Key == ConsoleKey.RightArrow) {}
                 else break;
             }
             return input;
