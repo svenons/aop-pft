@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Transactions;
@@ -769,11 +770,11 @@ namespace PersonalFinanceTracker {
             } while (continueRunning);
 
             int selectedYear = years[selectedIndex];
-            Date.Add(selectedYear);
             if (selectedYear == 0) {
                 MakeSummary(Date);
                 return;
             }
+            Date.Add(selectedYear);
             Console.Clear();
 
             ChooseMonthMenu(Date);
@@ -960,29 +961,27 @@ namespace PersonalFinanceTracker {
             Console.CursorVisible = false;
 
             Summary summary = new Summary();
-            if (Date.Count == 1) {
-                if (Date[0] == 0) {
+            switch(Date.Count()) {
+                case 0:
+                    // All Time
                     Console.WriteLine("Summary for All Time");
                     Console.ReadKey(true);
-                    return;
-                }
-                else {
+                    break;
+                case 1:
+                    // All year
                     Console.WriteLine($"Summary for {Date[0]}");
                     Console.ReadKey(true);
-                }
-                
-            }
-            else if (Date.Count == 2)
-            {
-                Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
-                Console.ReadKey(true);
-                // Month
-            }
-            else
-            {
-                Console.WriteLine($"Summary for {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[2]}, {Date[0]}");
-                Console.ReadKey(true);
-                // Day
+                    break;
+                case 2:
+                    // All month of a year
+                    Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
+                    Console.ReadKey(true);
+                    break;
+                case 3: 
+                    // Exact day
+                    Console.WriteLine($"Summary for {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[2]}, {Date[0]}");
+                    Console.ReadKey(true);
+                    break;
             }
         }
 
