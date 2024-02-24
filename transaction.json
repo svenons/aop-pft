@@ -68,5 +68,12 @@
     "Description": "Test random",
     "Amount": 200,
     "TransactionCategory": 3
+  },
+  {
+    "ID": "c52343f6-d18e-44cc-98a8-b01b02fe4398",
+    "Date": "2024-02-24T22:26:45.9670546+01:00",
+    "Description": "test",
+    "Amount": -1000,
+    "TransactionCategory": 2
   }
 ]

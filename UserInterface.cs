@@ -15,6 +15,7 @@ namespace PersonalFinanceTracker {
             Console.Clear();
             Console.CursorVisible = false;
             Console.SetWindowSize(80, 20);
+            Console.BackgroundColor = ConsoleColor.Black; // For Powershell
 
             // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20);
@@ -89,7 +90,7 @@ namespace PersonalFinanceTracker {
                 }
 
                 // Input Handler and Menu Navigation
-                ConsoleKey userInput = Console.ReadKey().Key;
+                ConsoleKey userInput = Console.ReadKey(true).Key;
                 switch(userInput) {
                     case ConsoleKey.DownArrow:
                         if(currentSelection == 3) currentSelection = 0;
@@ -401,7 +402,7 @@ namespace PersonalFinanceTracker {
         do
         {
             Console.Clear();
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 8 + transactions.Count);
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && (8 + transactions.Count) > 20) Console.SetBufferSize(80, 8 + transactions.Count);
             // Display a header for the List of Transactions
             Console.WriteLine("List of Transactions");
             Console.WriteLine("======================\n");
@@ -685,7 +686,6 @@ namespace PersonalFinanceTracker {
             // and confirm deletion if "Delete Transaction" is selected.
         }
 
-
         public static void SummaryMenu() {
             ChooseYearMenu();
         }
@@ -965,16 +965,38 @@ namespace PersonalFinanceTracker {
             string displayString = summaryResult.Item1;
             Dictionary<Transaction.Category, List<Transaction>> infoDict = summaryResult.Item2;
 
+            int verticalBuffer = 1;
+            foreach(var category in infoDict.Keys) {
+                if (infoDict[category].Count > 0) verticalBuffer += 2 + (infoDict[category].Count * 2);             
+            }
+            verticalBuffer += 2;
+
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) Console.SetBufferSize(80, 1 + verticalBuffer);
+
             Console.WriteLine(displayString);
             foreach (var category in infoDict.Keys) {
                 if (infoDict[category].Count > 0) {
-                    Console.WriteLine($"\n{category} Transactions:");
+
+                    Console.BackgroundColor = ConsoleColor.White;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.Write($"\n{category}{new string(' ', 54 - category.ToString().Length)}");
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine();
+
                     foreach (var transaction in infoDict[category]) {
-                        Console.WriteLine($"{transaction.Date.ToString("dd.MM.yyyy HH:mm")} - {transaction.Description} - {transaction.Amount} Kr.");
+                        Console.WriteLine($"{transaction.Date.ToString("dd.MM.yyyy, HH:mm")}:   {transaction.Description}");
+                        if(transaction.Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
+                        else Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write($"    {transaction.Amount + " Kr.",-16}");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine();
+                        
                     }
                 }
             }
-            Console.WriteLine("\nPress ESC to return to the main menu.");
+            Console.WriteLine("\nPress any key to return to the main menu.");
+            Console.SetCursorPosition(0,0);
             Console.ReadKey(true);
         }
 
