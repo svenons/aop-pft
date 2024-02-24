@@ -420,8 +420,14 @@ namespace PersonalFinanceTracker {
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
 
-                Console.WriteLine($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33} {transactions[i].Amount + " Kr.",-18} {transactions[i].TransactionCategory,-14}");
+                Console.Write($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33} ");
 
+                if(transactions[i].Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
+                else Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"{transactions[i].Amount + " Kr.",-18}");
+                Console.ResetColor();
+                
+                Console.WriteLine($" {transactions[i].TransactionCategory,-14}");
                 Console.ResetColor();
             }
 
