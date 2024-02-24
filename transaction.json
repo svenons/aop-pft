@@ -61,5 +61,12 @@
     "Description": "dnhwadwad",
     "Amount": 20000,
     "TransactionCategory": 0
+  },
+  {
+    "ID": "219d3db2-e098-484f-a203-6c49ffda0724",
+    "Date": "2024-02-23T15:03:00",
+    "Description": "Test random",
+    "Amount": 200,
+    "TransactionCategory": 3
   }
 ]
