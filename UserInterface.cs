@@ -15,10 +15,9 @@ namespace PersonalFinanceTracker {
             Console.Clear();
             Console.CursorVisible = false;
             Console.SetWindowSize(80, 20);
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20); // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
             Console.BackgroundColor = ConsoleColor.Black; // For Powershell
 
-            // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20);
             int windowWidth = Console.WindowWidth;
             int windowHeight = Console.WindowHeight;
 
@@ -981,7 +980,10 @@ namespace PersonalFinanceTracker {
             }
             verticalBuffer += 2;
 
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) Console.SetBufferSize(80, 1 + verticalBuffer);
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) {
+                Console.SetWindowSize(80, 1 + verticalBuffer);
+                Console.SetBufferSize(80, 1 + verticalBuffer);
+            }
 
             Console.WriteLine(displayString);
             foreach (var category in infoDict.Keys) {
@@ -989,7 +991,7 @@ namespace PersonalFinanceTracker {
 
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write($"\n{category}{new string(' ', 54 - category.ToString().Length)}");
+                    Console.Write($"\n{category,-54}");
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine();
@@ -1006,6 +1008,7 @@ namespace PersonalFinanceTracker {
                 }
             }
             Console.WriteLine("\nPress any key to return to the main menu.");
+            Console.SetWindowSize(80,20);
             Console.SetCursorPosition(0,0);
             Console.ReadKey(true);
         }

@@ -42,10 +42,24 @@
     "TransactionCategory": 1
   },
   {
-    "ID": "cdf41bf5-8802-4ec0-873a-bbb3eaa026f5",
-    "Date": "2024-02-24T23:29:39.7681748+01:00",
-    "Description": "Test\u002B",
-    "Amount": 12.12,
+    "ID": "514c339a-7a3c-4b31-a7c0-7f16af3d03bd",
+    "Date": "2024-01-29T00:00:00",
+    "Description": "Rent February",
+    "Amount": -9495,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "7bd3cce0-2d5d-4238-8679-a40e45cfa49f",
+    "Date": "2024-02-01T00:00:00",
+    "Description": "Salary",
+    "Amount": 24557,
     "TransactionCategory": 0
+  },
+  {
+    "ID": "f3e44803-adf9-461e-ad71-b7a721009ef9",
+    "Date": "2024-01-05T08:55:00",
+    "Description": "Fotex Sonderborg",
+    "Amount": -665,
+    "TransactionCategory": 3
   }
 ]
