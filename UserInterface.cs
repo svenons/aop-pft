@@ -48,7 +48,7 @@ namespace PersonalFinanceTracker {
 
         // Method for the Main Menu
         public static int MainMenu() {
-            // Setting Parameters
+            // Setting Parameters               
             int mainMenuWidth = 30;
             int mainMenuHeight = 5;
             int leftIndent = (Console.WindowWidth-mainMenuWidth)/2 -1;
@@ -961,30 +961,22 @@ namespace PersonalFinanceTracker {
             Console.CursorVisible = false;
 
             Summary summary = new Summary();
-            switch(Date.Count()) {
-                case 0:
-                    // All Time
-                    Console.WriteLine("Summary for All Time");
-                    Console.ReadKey(true);
-                    break;
-                case 1:
-                    // All year
-                    Console.WriteLine($"Summary for {Date[0]}");
-                    Console.ReadKey(true);
-                    break;
-                case 2:
-                    // All month of a year
-                    Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
-                    Console.ReadKey(true);
-                    break;
-                case 3: 
-                    // Exact day
-                    Console.WriteLine($"Summary for {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[2]}, {Date[0]}");
-                    Console.ReadKey(true);
-                    break;
-            }
-        }
+            var summaryResult = summary.GenerateSummary(Date, finance.GetTransactions());
+            string displayString = summaryResult.Item1;
+            Dictionary<Transaction.Category, List<Transaction>> infoDict = summaryResult.Item2;
 
+            Console.WriteLine(displayString);
+            foreach (var category in infoDict.Keys) {
+                if (infoDict[category].Count > 0) {
+                    Console.WriteLine($"\n{category} Transactions:");
+                    foreach (var transaction in infoDict[category]) {
+                        Console.WriteLine($"{transaction.Date.ToString("dd.MM.yyyy HH:mm")} - {transaction.Description} - {transaction.Amount} Kr.");
+                    }
+                }
+            }
+            Console.WriteLine("\nPress ESC to return to the main menu.");
+            Console.ReadKey(true);
+        }
 
         // Own quick Console.ReadLine() implementation:
         //  Limits to 32 characters, thus preventing breaking a line break if the input is too long.
