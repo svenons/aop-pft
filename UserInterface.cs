@@ -856,11 +856,11 @@ namespace PersonalFinanceTracker {
              } while (continueRunning);
 
             int selectedMonth = monthList[selectedIndex]; // This will be the actual month number or 0 for "All"
-            Date.Add(selectedMonth);
             if (selectedMonth == 0) {
                 MakeSummary(Date);
                 return;
             }
+            Date.Add(selectedMonth);
             Console.Clear();
 
             ChooseDayMenu(Date);
@@ -945,21 +945,14 @@ namespace PersonalFinanceTracker {
 
             int selectedDay = dayList[selectedIndex]; // This will be the actual day number or 0 for "All"
             Console.Clear();
-            // Display the selection appropriately
-            string selectedDayText = selectedDay == 0 ? "All Days" : $"Day {selectedDay}";
-            var month = selectedMonth == 0 ? "All Months" : CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selectedMonth);
-            Date.Add(selectedDay);
 
             if (selectedDay == 0) {
                 MakeSummary(Date);
                 return;
             }
+            Date.Add(selectedDay);
 
             MakeSummary(Date);
-
-            //Console.WriteLine($"{selectedDayText} selected in Month {month} {selectedYear}"); // This is for now, while we dont have further code
-            //Console.ReadKey(true); // Pause to see the selected day
-            // Proceed with actions based on the selected day - need to uncomment the code of .Count == 1, when finished with the statement section itself
         }
 
         public static void MakeSummary(List<int> Date) {
@@ -973,30 +966,20 @@ namespace PersonalFinanceTracker {
                     Console.ReadKey(true);
                     return;
                 }
-                Console.WriteLine($"Summary for {Date[0]}");
-                Console.ReadKey(true);
+                else {
+                    Console.WriteLine($"Summary for {Date[0]}");
+                    Console.ReadKey(true);
+                }
                 
             }
             else if (Date.Count == 2)
             {
-                if (Date[1] == 0) {
-                    Console.WriteLine($"Summary for all of {Date[0]}");
-                    Console.ReadKey(true);
-                    return;
-                }
-                else {
-                Console.WriteLine($"Summary for {Date[0]} {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])}");
+                Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
                 Console.ReadKey(true);
                 // Month
-                }
             }
             else
             {
-                if (Date[2] == 0) {
-                    Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
-                    Console.ReadKey(true);
-                    return;
-                }
                 Console.WriteLine($"Summary for {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[2]}, {Date[0]}");
                 Console.ReadKey(true);
                 // Day
