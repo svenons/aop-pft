@@ -687,12 +687,10 @@ namespace PersonalFinanceTracker {
 
         public static void SummaryMenu() {
             ChooseYearMenu();
-
-            //Summary summary = new();
-            //List<Transaction> transactions = finance.GetTransactions();
         }
 
         public static void ChooseYearMenu() {
+            List<int> Date = new List<int>();
             Console.Clear();
             Console.CursorVisible = false;
 
@@ -703,9 +701,14 @@ namespace PersonalFinanceTracker {
             if (years.Count == 0) {
                 return; // Exit if there are no transactions, lol
             }
+            // Add "All" option if there are multiple months
+            else if (years.Count > 1) {
+                years.Insert(0, 0); // Insert "All" at the beginning represented by 0
+            }
             else if (years.Count == 1)
             {
-                ChooseMonthMenu(years[0]);
+                Date.Add(years[0]);
+                ChooseMonthMenu(Date);
                 return;
             }
 
@@ -743,7 +746,9 @@ namespace PersonalFinanceTracker {
                         Console.ForegroundColor = ConsoleColor.Black;
                     }
 
-                    Console.Write($"{(i == selectedIndex ? "> " : "  ")}{years[i]}".PadRight(menuWidth - 4));
+                    // Display "All" for 0, or the month name for others using CultureInfo
+                    string displayText = years[i] == 0 ? "All" : years[i].ToString();
+                    Console.Write($"{(i == selectedIndex ? "> " : "  ")}{displayText}".PadRight(menuWidth - 4));
                     Console.ResetColor();
                 }
 
@@ -764,13 +769,19 @@ namespace PersonalFinanceTracker {
             } while (continueRunning);
 
             int selectedYear = years[selectedIndex];
+            Date.Add(selectedYear);
+            if (selectedYear == 0) {
+                MakeSummary(Date);
+                return;
+            }
             Console.Clear();
 
-            ChooseMonthMenu(selectedYear);
+            ChooseMonthMenu(Date);
         }
 
-        public static void ChooseMonthMenu(int selectedYear) {
+        public static void ChooseMonthMenu(List<int> Date) {
             Console.Clear();
+            int selectedYear = Date[0];
             Console.CursorVisible = false;
 
             Summary summary = new Summary();
@@ -783,7 +794,8 @@ namespace PersonalFinanceTracker {
             }
             else if (monthList.Count == 1) // If only 1 choice, skip to the day menu
             {
-                ChooseDayMenu(selectedYear, monthList[0]);
+                Date.Add(monthList[0]);
+                ChooseDayMenu(Date);
                 return;
             }
 
@@ -844,14 +856,21 @@ namespace PersonalFinanceTracker {
              } while (continueRunning);
 
             int selectedMonth = monthList[selectedIndex]; // This will be the actual month number or 0 for "All"
+            Date.Add(selectedMonth);
+            if (selectedMonth == 0) {
+                MakeSummary(Date);
+                return;
+            }
             Console.Clear();
 
-            ChooseDayMenu(selectedYear, selectedMonth);
+            ChooseDayMenu(Date);
         }
 
-        public static void ChooseDayMenu(int selectedYear, int selectedMonth) {
+        public static void ChooseDayMenu(List<int> Date) {
             Console.Clear();
             Console.CursorVisible = false;
+            int selectedYear = Date[0];
+            int selectedMonth = Date[1];
 
             Summary summary = new Summary();
             List<Transaction> transactions = finance.GetTransactions();
@@ -861,12 +880,12 @@ namespace PersonalFinanceTracker {
             if (dayList.Count > 1) {
                 dayList.Insert(0, 0); // Insert "All" at the beginning represented by 0
             }
-            /*else if (dayList.Count == 1)
+            else if (dayList.Count == 1)
             {
-                // SKIP TO THE SUMMARY
+                Date.Add(dayList[0]);
+                MakeSummary(Date);
                 return;
-            } */
-            //UNCOMMENT THIS WHEN FINISHED!!!
+            } 
 
             int selectedIndex = 0; // Default selection index
             int menuWidth = 30;
@@ -929,10 +948,59 @@ namespace PersonalFinanceTracker {
             // Display the selection appropriately
             string selectedDayText = selectedDay == 0 ? "All Days" : $"Day {selectedDay}";
             var month = selectedMonth == 0 ? "All Months" : CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(selectedMonth);
-            Console.WriteLine($"{selectedDayText} selected in Month {month} {selectedYear}"); // This is for now, while we dont have further code
-            Console.ReadKey(true); // Pause to see the selected day
+            Date.Add(selectedDay);
 
+            if (selectedDay == 0) {
+                MakeSummary(Date);
+                return;
+            }
+
+            MakeSummary(Date);
+
+            //Console.WriteLine($"{selectedDayText} selected in Month {month} {selectedYear}"); // This is for now, while we dont have further code
+            //Console.ReadKey(true); // Pause to see the selected day
             // Proceed with actions based on the selected day - need to uncomment the code of .Count == 1, when finished with the statement section itself
+        }
+
+        public static void MakeSummary(List<int> Date) {
+            Console.Clear();
+            Console.CursorVisible = false;
+
+            Summary summary = new Summary();
+            if (Date.Count == 1) {
+                if (Date[0] == 0) {
+                    Console.WriteLine("Summary for All Time");
+                    Console.ReadKey(true);
+                    return;
+                }
+                Console.WriteLine($"Summary for {Date[0]}");
+                Console.ReadKey(true);
+                
+            }
+            else if (Date.Count == 2)
+            {
+                if (Date[1] == 0) {
+                    Console.WriteLine($"Summary for all of {Date[0]}");
+                    Console.ReadKey(true);
+                    return;
+                }
+                else {
+                Console.WriteLine($"Summary for {Date[0]} {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])}");
+                Console.ReadKey(true);
+                // Month
+                }
+            }
+            else
+            {
+                if (Date[2] == 0) {
+                    Console.WriteLine($"Summary for all of {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[0]}");
+                    Console.ReadKey(true);
+                    return;
+                }
+                Console.WriteLine($"Summary for {CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(Date[1])} {Date[2]}, {Date[0]}");
+                Console.ReadKey(true);
+                // Day
+            }
         }
 
 
