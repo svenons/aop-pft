@@ -5,5 +5,47 @@
     "Description": "Salary",
     "Amount": 24195,
     "TransactionCategory": 0
+  },
+  {
+    "ID": "82a0b0fb-1533-457c-9cc7-06ad522df29a",
+    "Date": "2023-12-02T15:27:00",
+    "Description": "Bilka Sonderborg",
+    "Amount": -475.28,
+    "TransactionCategory": 3
+  },
+  {
+    "ID": "87bf3371-8ed5-48eb-b7e8-9025fb6a0345",
+    "Date": "2023-12-04T00:00:00",
+    "Description": "Electricity November",
+    "Amount": -629.48,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "2781cca7-c110-47dd-bf22-f01f5eb15866",
+    "Date": "2023-12-06T00:00:00",
+    "Description": "Internet December",
+    "Amount": -129,
+    "TransactionCategory": 2
+  },
+  {
+    "ID": "d2448289-e09c-4ceb-98a2-8109c9b48489",
+    "Date": "2023-12-15T00:00:00",
+    "Description": "School Trip for Kid",
+    "Amount": -2558,
+    "TransactionCategory": 4
+  },
+  {
+    "ID": "255465cb-1659-48cf-9bd1-e560e664dfeb",
+    "Date": "2023-11-29T00:00:00",
+    "Description": "Rent December",
+    "Amount": -9428,
+    "TransactionCategory": 1
+  },
+  {
+    "ID": "cdf41bf5-8802-4ec0-873a-bbb3eaa026f5",
+    "Date": "2024-02-24T23:29:39.7681748+01:00",
+    "Description": "Test\u002B",
+    "Amount": 12.12,
+    "TransactionCategory": 0
   }
 ]

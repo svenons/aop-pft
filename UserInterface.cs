@@ -219,7 +219,7 @@ namespace PersonalFinanceTracker {
                                 input= GetInputAtBottom();
                                 
                                 // Trying to parse to number
-                                if(!decimal.TryParse(input, out decimal testAmount)) {
+                                if(!decimal.TryParse(input, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out decimal testAmount)) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
                                     Console.Write("Please enter a valid decimal number.");
                                     amount = null;
@@ -420,7 +420,7 @@ namespace PersonalFinanceTracker {
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
 
-                Console.Write($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33} ");
+                Console.Write($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33}");
 
                 if(transactions[i].Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
                 else Console.ForegroundColor = ConsoleColor.Red;
@@ -583,7 +583,7 @@ namespace PersonalFinanceTracker {
                                 Console.CursorVisible = true;
                                 Console.Write($"New {menuItems[currentSelection]} : ");
                                 string replace = GetInputAtBottom();
-                                if (decimal.TryParse(replace, out decimal newAmount))
+                                if (decimal.TryParse(replace, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out decimal newAmount))
                                 {
                                     selectedTransaction.Amount = newAmount;
                                     changed = true;
