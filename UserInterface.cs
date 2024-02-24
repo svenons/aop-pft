@@ -980,10 +980,11 @@ namespace PersonalFinanceTracker {
             }
             verticalBuffer += 2;
 
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) {
-                Console.SetWindowSize(80, 1 + verticalBuffer);
-                Console.SetBufferSize(80, 1 + verticalBuffer);
-            }
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) Console.SetBufferSize(80, 4 + verticalBuffer);
+
+
+            decimal totalIncome = 0;
+            decimal totalSpendings = 0;
 
             Console.WriteLine(displayString);
             foreach (var category in infoDict.Keys) {
@@ -994,9 +995,12 @@ namespace PersonalFinanceTracker {
                     Console.Write($"\n{category,-54}");
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(new string(' ', 26));
                     Console.WriteLine();
 
                     foreach (var transaction in infoDict[category]) {
+                        if(transaction.Amount > 0) totalIncome += transaction.Amount;
+                        else totalSpendings += transaction.Amount;
                         Console.WriteLine($"{transaction.Date.ToString("dd.MM.yyyy, HH:mm")}:   {transaction.Description}");
                         if(transaction.Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
                         else Console.ForegroundColor = ConsoleColor.Red;
@@ -1007,7 +1011,23 @@ namespace PersonalFinanceTracker {
                     }
                 }
             }
-            Console.WriteLine("\nPress any key to return to the main menu.");
+            Console.Write("\nTotal Income: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{totalIncome,-12}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Total Spendings: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{totalSpendings}\n");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("Available: ");
+            if(totalIncome + totalSpendings < 0) Console.ForegroundColor = ConsoleColor.Red;
+            else Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(totalIncome + totalSpendings);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\n\nPress any key to return to the main menu.");
+            
             Console.SetWindowSize(80,20);
             Console.SetCursorPosition(0,0);
             Console.ReadKey(true);
