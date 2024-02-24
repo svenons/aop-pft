@@ -47,5 +47,19 @@
     "Description": "Test Last",
     "Amount": 2000,
     "TransactionCategory": 2
+  },
+  {
+    "ID": "adb6673f-b98f-4f06-a42c-c7204c9be3a1",
+    "Date": "1980-05-01T14:03:00",
+    "Description": "awdawd",
+    "Amount": 200,
+    "TransactionCategory": 0
+  },
+  {
+    "ID": "a9b0e605-a9b2-4d10-b7e5-b646a2016b6a",
+    "Date": "1977-12-01T15:33:00",
+    "Description": "dnhwadwad",
+    "Amount": 20000,
+    "TransactionCategory": 0
   }
 ]

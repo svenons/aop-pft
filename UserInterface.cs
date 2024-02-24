@@ -288,7 +288,7 @@ namespace PersonalFinanceTracker {
                                 string input = "";
                                 input = GetInputAtBottom();
 
-                                bool conversionWorked = DateTime.TryParse(input, out DateTime testDate);
+                                bool conversionWorked = DateTime.TryParseExact(input, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime testDate);
                                 if(input.Length != 0 && !conversionWorked) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
                                     Console.Write("Enter date and time as dd.MM.yyyy HH:MM (24 Hour), or leave blank for now.");
