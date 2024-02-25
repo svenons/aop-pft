@@ -15,10 +15,9 @@ namespace PersonalFinanceTracker {
             Console.Clear();
             Console.CursorVisible = false;
             Console.SetWindowSize(80, 20);
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20); // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
             Console.BackgroundColor = ConsoleColor.Black; // For Powershell
 
-            // Required on Windows to stop CMD/Powershell from being scrollable, leading to annoying behaviour.
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows)) Console.SetBufferSize(80, 20);
             int windowWidth = Console.WindowWidth;
             int windowHeight = Console.WindowHeight;
 
@@ -219,7 +218,7 @@ namespace PersonalFinanceTracker {
                                 input= GetInputAtBottom();
                                 
                                 // Trying to parse to number
-                                if(!decimal.TryParse(input, out decimal testAmount)) {
+                                if(!decimal.TryParse(input, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out decimal testAmount) && !decimal.TryParse(input, out testAmount)) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
                                     Console.Write("Please enter a valid decimal number.");
                                     amount = null;
@@ -289,7 +288,7 @@ namespace PersonalFinanceTracker {
                                 string input = "";
                                 input = GetInputAtBottom();
 
-                                bool conversionWorked = DateTime.TryParseExact(input, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime testDate);
+                                bool conversionWorked = DateTime.TryParse(input, out DateTime testDate);
                                 if(input.Length != 0 && !conversionWorked) {
                                     Console.SetCursorPosition(0, Console.WindowHeight - 2);
                                     Console.Write("Enter date and time as dd.MM.yyyy HH:MM (24 Hour), or leave blank for now.");
@@ -420,8 +419,18 @@ namespace PersonalFinanceTracker {
                     Console.ForegroundColor = ConsoleColor.Black;
                 }
 
-                Console.WriteLine($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33} {transactions[i].Amount + " Kr.",-18} {transactions[i].TransactionCategory,-14}");
+                Console.Write($"{transactions[i].Date,-12:dd.MM.yyyy} {transactions[i].Description,-33}");
 
+                if(transactions[i].Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
+                else Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write($"{transactions[i].Amount + " Kr.",-18}");
+                if (i == selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Gray;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                }
+                
+                Console.WriteLine($" {transactions[i].TransactionCategory,-14}");
                 Console.ResetColor();
             }
 
@@ -573,7 +582,7 @@ namespace PersonalFinanceTracker {
                                 Console.CursorVisible = true;
                                 Console.Write($"New {menuItems[currentSelection]} : ");
                                 string replace = GetInputAtBottom();
-                                if (decimal.TryParse(replace, out decimal newAmount))
+                                if (decimal.TryParse(replace, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out decimal newAmount) || decimal.TryParse(replace, out newAmount))
                                 {
                                     selectedTransaction.Amount = newAmount;
                                     changed = true;
@@ -971,7 +980,11 @@ namespace PersonalFinanceTracker {
             }
             verticalBuffer += 2;
 
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) Console.SetBufferSize(80, 1 + verticalBuffer);
+            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && verticalBuffer > 20) Console.SetBufferSize(80, 4 + verticalBuffer);
+
+
+            decimal totalIncome = 0;
+            decimal totalSpendings = 0;
 
             Console.WriteLine(displayString);
             foreach (var category in infoDict.Keys) {
@@ -979,12 +992,15 @@ namespace PersonalFinanceTracker {
 
                     Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Black;
-                    Console.Write($"\n{category}{new string(' ', 54 - category.ToString().Length)}");
+                    Console.Write($"\n{category,-54}");
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
+                    Console.Write(new string(' ', 26));
                     Console.WriteLine();
 
                     foreach (var transaction in infoDict[category]) {
+                        if(transaction.Amount > 0) totalIncome += transaction.Amount;
+                        else totalSpendings += transaction.Amount;
                         Console.WriteLine($"{transaction.Date.ToString("dd.MM.yyyy, HH:mm")}:   {transaction.Description}");
                         if(transaction.Amount > 0) Console.ForegroundColor = ConsoleColor.Green;
                         else Console.ForegroundColor = ConsoleColor.Red;
@@ -995,7 +1011,24 @@ namespace PersonalFinanceTracker {
                     }
                 }
             }
-            Console.WriteLine("\nPress any key to return to the main menu.");
+            Console.Write("\nTotal Income: ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write($"{totalIncome,-12}");
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Write("Total Spendings: ");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.Write($"{totalSpendings}\n");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("Available: ");
+            if(totalIncome + totalSpendings < 0) Console.ForegroundColor = ConsoleColor.Red;
+            else Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write(totalIncome + totalSpendings);
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("\n\nPress any key to return to the main menu.");
+            
+            Console.SetWindowSize(80,20);
             Console.SetCursorPosition(0,0);
             Console.ReadKey(true);
         }
@@ -1008,18 +1041,19 @@ namespace PersonalFinanceTracker {
             string input = "";
             while(true) {
                 ConsoleKeyInfo inputChar = Console.ReadKey(true);
-                if(inputChar.Key == ConsoleKey.Backspace && input.Length != 0) {
+                if(inputChar.Key == ConsoleKey.Backspace && input.Length != 0 && !(inputChar.Key == ConsoleKey.LeftArrow || inputChar.Key == ConsoleKey.RightArrow)) {
                     Console.SetCursorPosition(Console.CursorLeft -1, Console.CursorTop);
                     Console.Write(' ');
                     Console.SetCursorPosition(Console.CursorLeft -1, Console.CursorTop);
                     input = input.Remove(input.Length - 1, 1);
                 }
-                else if(inputChar.Key != ConsoleKey.Enter && inputChar.Key != ConsoleKey.Backspace) {
+                else if(inputChar.Key != ConsoleKey.Enter && inputChar.Key != ConsoleKey.Backspace && !(inputChar.Key == ConsoleKey.LeftArrow || inputChar.Key == ConsoleKey.RightArrow)) {
                     if(input.Length <= 31) {
                         Console.Write(inputChar.KeyChar);
                         input += inputChar.KeyChar;
                     }
                 } else if(inputChar.Key == ConsoleKey.Backspace) {}
+                else if(inputChar.Key == ConsoleKey.LeftArrow ||inputChar.Key == ConsoleKey.RightArrow) {}
                 else break;
             }
             return input;

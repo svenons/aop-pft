@@ -59,13 +59,4 @@ namespace PersonalFinanceTracker {
             Transactions = storage.Load();
         }
     }
-
-    public class FinanceSummary: IFinanceSummary
-    {
-        public decimal GetSummary(List<Transaction> transactions, Transaction.Category category)
-        {
-            Summary summary = new();
-            return summary.Amount;
-        }
-    }
 }

@@ -1,7 +1,15 @@
 # Project: `Personal Finance Tracker`
-An A-OOP assignment.
+An AOOP assignment.
 
-### Objective: `Develop a console application that allows users to track personal finances over time. `
+### The important stuff for all users:
+This code is NOT designed to be run on non-Windows machines, and in integrated terminals. It is recommended to run it in CMD or Powershell, the former being preferred, with the terminal font set to JetBrains Mono.
+
+To run:
+`cd /path/to/project`
+`dotnet run`
+
+### Objective: 
+`Develop a console application that allows users to track personal finances over time. `
 
 The application will enable users to:
 - record income and expenses
@@ -50,6 +58,6 @@ The project also requires students to use collaborative coding practices using G
 
 ## Acknowledgements
 
- - This exercise is part of Advanced Object Oriented Programming on [Software Engineering by SDU](https://mitsdu.dk/en/mit_studie/bachelor/softwareengineering_bachelor_soenderborg)
- - Created by [Dr. Maximus Kaos](https://github.com/MaxDKaos/) and [Maximilian von Zastrow](https://github.com/vzastrow)
+ - This exercise is part of Advanced Object Oriented Programming on [Software Engineering at SDU](https://mitsdu.dk/en/mit_studie/bachelor/softwareengineering_bachelor_soenderborg)
+ - Created by [Maximus D. Kaos](https://github.com/MaxDKaos/) and [Maximilian von Zastrow](https://github.com/vzastrow)
 
