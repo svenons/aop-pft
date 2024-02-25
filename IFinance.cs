@@ -7,7 +7,4 @@ namespace PersonalFinanceTracker {
         public bool Save();
         public void Load();
     }
-    public interface IFinanceSummary {
-        public decimal GetSummary(List<Transaction> transactions, Transaction.Category category);
-    }
 }
